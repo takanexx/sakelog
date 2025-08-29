@@ -32,27 +32,28 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="cabinet" color={color} />
+            <IconSymbol size={28} name="house" color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="search"
+        name="cabinet"
         options={{
-          title: "Search",
+          title: "Cabinet",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="magnifyingglass" color={color} />
+            <IconSymbol size={28} name="cabinet" color={color} />
+            // <IconSymbol size={28} name="magnifyingglass" color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="user"
+        name="setting"
         options={{
           headerShown: true,
-          headerTitle: "アカウント",
-          title: "User",
+          headerTitle: "Setting",
+          title: "Setting",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="person.circle" color={color} />
+            <IconSymbol size={28} name="gearshape" color={color} />
           ),
         }}
       />
