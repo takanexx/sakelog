@@ -1,35 +1,66 @@
 import FloatingActionButton from "@/components/FloatingActionButton";
 import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Image } from "expo-image";
-import { StyleSheet } from "react-native";
+import { Dimensions, FlatList, SafeAreaView, StyleSheet } from "react-native";
 
 export default function CabinetScreen() {
+  const numColumns = 3;
+  const { width } = Dimensions.get("window");
+
+  // FlatList の contentContainerStyle とカード margin に合わせる
+  const horizontalPadding = 20; // 左右合計 (paddingHorizontal:10 * 2)
+  const gap = 6; // gap
+  const margin = 4; // カード左右のmarginHorizontal合計 (4+4)
+
+  const cardSize =
+    (width - horizontalPadding - gap * (numColumns - 1) - margin * numColumns) /
+    numColumns;
+
   return (
     <>
-      <ParallaxScrollView
-        headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-        headerImage={
-          <Image
-            source={require("@/assets/images/partial-react-logo.png")}
-            style={styles.reactLogo}
-          />
-        }
-      >
+      <SafeAreaView>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">Search</ThemedText>
           <HelloWave />
         </ThemedView>
-        <ThemedView style={styles.stepContainer}>
-          <ThemedText type="subtitle">Search Feature</ThemedText>
-          <ThemedText>
-            This is a placeholder for the search feature. Implement your search
-            logic here.
-          </ThemedText>
-        </ThemedView>
-      </ParallaxScrollView>
+      </SafeAreaView>
+
+      <FlatList
+        numColumns={numColumns}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        data={[...Array(21).keys()].map((i) => `Item ${i + 1}`)}
+        horizontal={false}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={{
+          paddingHorizontal: 10,
+          gap: 6,
+          paddingBottom: 100,
+        }}
+        renderItem={({ item }) => (
+          <ThemedView
+            style={{
+              width: cardSize,
+              height: cardSize * 1.5,
+              marginHorizontal: 4,
+              justifyContent: "center",
+              alignItems: "center",
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.2,
+              shadowRadius: 4,
+              elevation: 5,
+              borderRadius: 10,
+              borderBlockColor: "gray",
+              padding: 8,
+            }}
+          >
+            <ThemedText>{item}. Add your favorite sake</ThemedText>
+          </ThemedView>
+        )}
+      />
+
       <FloatingActionButton />
     </>
   );
