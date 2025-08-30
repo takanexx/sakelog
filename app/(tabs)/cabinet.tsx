@@ -1,31 +1,34 @@
+import { GLView } from "expo-gl";
+import { Renderer } from "expo-three";
+import { useRef } from "react";
+import { Dimensions, FlatList, SafeAreaView, StyleSheet } from "react-native";
+import * as THREE from "three";
+
 import FloatingActionButton from "@/components/FloatingActionButton";
 import { HelloWave } from "@/components/HelloWave";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Dimensions, FlatList, SafeAreaView, StyleSheet } from "react-native";
 
 export default function CabinetScreen() {
+  const modelRef = useRef<THREE.Object3D | null>(null);
   const numColumns = 3;
   const { width } = Dimensions.get("window");
 
-  // FlatList の contentContainerStyle とカード margin に合わせる
-  const horizontalPadding = 20; // 左右合計 (paddingHorizontal:10 * 2)
-  const gap = 6; // gap
-  const margin = 4; // カード左右のmarginHorizontal合計 (4+4)
+  const horizontalPadding = 20;
+  const gap = 6;
+  const margin = 4;
 
   const cardSize =
     (width - horizontalPadding - gap * (numColumns - 1) - margin * numColumns) /
     numColumns;
 
   return (
-    <>
-      <SafeAreaView>
-        <ThemedView style={styles.titleContainer}>
-          <ThemedText type="title">Search</ThemedText>
-          <HelloWave />
-        </ThemedView>
-      </SafeAreaView>
-
+    <SafeAreaView style={{ flex: 1 }}>
+      {/* 上部タイトル */}
+      <ThemedView style={styles.titleContainer}>
+        <ThemedText type="title">Search</ThemedText>
+        <HelloWave />
+      </ThemedView>
       <FlatList
         numColumns={numColumns}
         showsVerticalScrollIndicator={false}
@@ -56,13 +59,49 @@ export default function CabinetScreen() {
               padding: 8,
             }}
           >
-            <ThemedText>{item}. Add your favorite sake</ThemedText>
+            <GLView
+              style={{ width: "100%", height: "100%" }}
+              onContextCreate={(gl) => {
+                const width = gl.drawingBufferWidth || 300;
+                const height = gl.drawingBufferHeight || 300;
+
+                const renderer = new Renderer({ gl, width, height });
+                const scene = new THREE.Scene();
+                scene.background = new THREE.Color(0xf0f0f0);
+
+                const camera = new THREE.PerspectiveCamera(
+                  75,
+                  width / height,
+                  0.1,
+                  1000
+                );
+                camera.position.set(0, 0, 5);
+                camera.lookAt(0, 0, 0);
+
+                const light = new THREE.AmbientLight(0xffffff, 1.2);
+                scene.add(light);
+
+                const geometry = new THREE.BoxGeometry(1, 1, 1);
+                const material = new THREE.MeshStandardMaterial({
+                  color: 0xff0000,
+                });
+                const cube = new THREE.Mesh(geometry, material);
+                scene.add(cube);
+
+                const animate = () => {
+                  requestAnimationFrame(animate);
+                  cube.rotation.y += 0.01;
+                  renderer.render(scene, camera);
+                  gl.endFrameEXP();
+                };
+                animate();
+              }}
+            />
           </ThemedView>
         )}
       />
-
       <FloatingActionButton />
-    </>
+    </SafeAreaView>
   );
 }
 
@@ -73,15 +112,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
     backgroundColor: "transparent",
-  },
-  stepContainer: {
-    padding: 20,
-    backgroundColor: "transparent",
-  },
-  reactLogo: {
-    width: 100,
-    height: 100,
-    alignSelf: "center",
-    marginBottom: 20,
   },
 });
