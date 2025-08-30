@@ -29,6 +29,7 @@ export default function CabinetScreen() {
         <ThemedText type="title">Search</ThemedText>
         <HelloWave />
       </ThemedView>
+      {/* リスト */}
       <FlatList
         numColumns={numColumns}
         showsVerticalScrollIndicator={false}
@@ -62,8 +63,8 @@ export default function CabinetScreen() {
             <GLView
               style={{ width: "100%", height: "100%" }}
               onContextCreate={(gl) => {
-                const width = gl.drawingBufferWidth || 300;
-                const height = gl.drawingBufferHeight || 300;
+                const width = gl.drawingBufferWidth;
+                const height = gl.drawingBufferHeight;
 
                 const renderer = new Renderer({ gl, width, height });
                 const scene = new THREE.Scene();
@@ -75,7 +76,7 @@ export default function CabinetScreen() {
                   0.1,
                   1000
                 );
-                camera.position.set(0, 0, 5);
+                camera.position.set(0, 1, 5);
                 camera.lookAt(0, 0, 0);
 
                 const light = new THREE.AmbientLight(0xffffff, 1.2);
