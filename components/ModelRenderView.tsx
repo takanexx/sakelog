@@ -8,97 +8,90 @@ export default function ModelRenderView({ fileName }: { fileName?: string }) {
   const modelRef = useRef<THREE.Object3D | null>(null);
 
   const loadModel = async (scene: THREE.Scene) => {
-    // house.glb を assets から取得
-    // const file = fileName ?? "zaku.glb";
-    const file = "template.glb";
-    const asset = Asset.fromModule(require(`../assets/models/${file}`));
-    await asset.downloadAsync();
+    // モデルの読み込み
+    const modelAsset = Asset.fromModule(
+      require("../assets/models/template.glb")
+    );
+    await modelAsset.downloadAsync();
 
-    return new Promise<THREE.Object3D>((resolve, reject) => {
-      const loader = new GLTFLoader();
-      loader.load(
-        asset.localUri || asset.uri,
-        (gltf) => {
-          const model = gltf.scene;
-
-          // バウンディングボックスでサイズを調べる
-          const box = new THREE.Box3().setFromObject(model);
-          const size = new THREE.Vector3();
-          box.getSize(size);
-          const center = new THREE.Vector3();
-          box.getCenter(center);
-
-          // モデルを中心に移動させる
-          model.position.sub(center);
-          scene.add(model);
-
-          resolve(model);
-        },
-        undefined,
-        (error) => {
-          console.error("GLTF load error:", error);
-          reject(error);
-        }
-      );
+    const loader = new GLTFLoader();
+    const gltf = await new Promise<THREE.GLTF>((resolve, reject) => {
+      loader.load(modelAsset.localUri || "", resolve, undefined, reject);
     });
+
+    const model = gltf.scene;
+    scene.add(model);
+    modelRef.current = model;
+
+    // ラベル画像の読み込み
+    const labelTexture = new THREE.TextureLoader().load(
+      // Asset.fromModule(require("../assets/labels/test.png")).uri
+      Asset.fromModule(require("../assets/labels/izumi.jpg")).uri
+    );
+
+    // スケール調整（大きい場合は小さくする）
+    model.scale.set(1.5, 1.5, 1.5);
+
+    // "LabelMaterial" を探してテクスチャを適用
+    model.traverse((child: any) => {
+      if (
+        child.isMesh &&
+        child.material &&
+        child.material.name === "LabelMaterial"
+      ) {
+        console.log("Found LabelMaterial, applying texture");
+
+        if (child.geometry.attributes.uv) {
+          console.log("✅ UV展開されています");
+        } else {
+          console.log("❌ UV展開されていません");
+        }
+
+        child.material.map = labelTexture;
+        child.material.needsUpdate = true;
+      }
+    });
+  };
+
+  const onContextCreate = async (gl: any) => {
+    const { drawingBufferWidth: width, drawingBufferHeight: height } = gl;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    camera.position.z = 5;
+
+    const renderer = new Renderer({ gl });
+    renderer.setSize(width, height);
+
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(5, 10, 5).normalize();
+    scene.add(light);
+
+    await loadModel(scene);
+
+    const render = () => {
+      requestAnimationFrame(render);
+      renderer.render(scene, camera);
+      gl.endFrameEXP();
+    };
+    render();
+
+    // const animate = () => {
+    //   requestAnimationFrame(animate);
+    //   if (modelRef.current) {
+    //     modelRef.current.rotation.y += 0.01;
+    //   }
+    //   renderer.render(scene, camera);
+    //   gl.endFrameEXP();
+    // };
+    // animate();
   };
 
   return (
     <GLView
       style={{ width: "100%", height: "80%" }}
       onContextCreate={async (gl) => {
-        const width = gl.drawingBufferWidth;
-        const height = gl.drawingBufferHeight;
-
-        const renderer = new Renderer({ gl, width, height });
-        renderer.setSize(width, height);
-
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color("white");
-
-        const camera = new THREE.PerspectiveCamera(
-          75,
-          width / height,
-          0.1,
-          1000
-        );
-        camera.position.set(0, 2, 5); // Yを少し上げて、Zを引く
-        camera.lookAt(0, 0, 0);
-
-        // 環境光と方向光
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-        scene.add(ambientLight);
-
-        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        dirLight.position.set(5, 10, 5);
-        scene.add(dirLight);
-
-        // house.glb をロード
-        const model = await loadModel(scene);
-        modelRef.current = model;
-
-        // スケール調整（大きい場合は小さくする）
-        model.scale.set(1.5, 1.5, 1.5);
-
-        // デバッグ: バウンディングボックスを可視化
-        const boxHelper = new THREE.BoxHelper(model, 0xff0000);
-        scene.add(boxHelper);
-
-        // アニメーションループ
-        const clock = new THREE.Clock();
-        const animate = () => {
-          requestAnimationFrame(animate);
-
-          const delta = clock.getDelta();
-
-          if (modelRef.current) {
-            modelRef.current.rotation.y += delta * 0.5;
-          }
-
-          renderer.render(scene, camera);
-          gl.endFrameEXP();
-        };
-        animate();
+        await onContextCreate(gl);
       }}
     />
   );
