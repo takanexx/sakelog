@@ -14,7 +14,7 @@ export default function TestScreen() {
 
   const loadModel = async (scene: THREE.Scene) => {
     // house.glb を assets から取得
-    const asset = Asset.fromModule(require("../../assets/models/house.glb"));
+    const asset = Asset.fromModule(require("../../assets/models/zaku.glb"));
     await asset.downloadAsync();
 
     return new Promise<THREE.Object3D>((resolve, reject) => {
@@ -90,7 +90,7 @@ export default function TestScreen() {
               0.1,
               1000
             );
-            camera.position.set(0, 5, 10); // Yを少し上げて、Zを引く
+            camera.position.set(0, 2, 5); // Yを少し上げて、Zを引く
             camera.lookAt(0, 0, 0);
 
             // 環境光と方向光
@@ -106,7 +106,7 @@ export default function TestScreen() {
             modelRef.current = model;
 
             // スケール調整（大きい場合は小さくする）
-            model.scale.set(0.5, 0.5, 0.5);
+            // model.scale.set(0.5, 0.5, 0.5);
 
             // デバッグ: バウンディングボックスを可視化
             const boxHelper = new THREE.BoxHelper(model, 0xff0000);

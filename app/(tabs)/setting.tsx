@@ -1,3 +1,4 @@
+import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
 import {
@@ -38,6 +39,16 @@ export default function SettingScreen() {
           <Text style={{ color: "red" }}>アカウントを削除</Text>
         </TouchableOpacity>
       </ThemedView>
+      <ThemedText
+        style={{
+          textAlign: "center",
+          marginTop: 20,
+          marginBottom: 50,
+          color: "gray",
+        }}
+      >
+        Version 1.0.0
+      </ThemedText>
     </SafeAreaView>
   );
 }

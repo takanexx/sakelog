@@ -1,7 +1,8 @@
 import { Image } from "expo-image";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
 import { HelloWave } from "@/components/HelloWave";
+import ModelRenderView from "@/components/ModelRenderView";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -25,7 +26,9 @@ export default function HomeScreen() {
         <ThemedText type="subtitle">Recently</ThemedText>
         <ThemedView
           style={{
-            borderRadius: 10,
+            width: Dimensions.get("window").width - 66,
+            height: 300,
+            borderRadius: 20,
             borderBlockColor: "gray",
             padding: 8,
             shadowColor: "#000",
@@ -34,7 +37,25 @@ export default function HomeScreen() {
             shadowRadius: 4,
           }}
         >
-          <ThemedText>1. Add your favorite sake</ThemedText>
+          <ModelRenderView />
+        </ThemedView>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Recently</ThemedText>
+        <ThemedView
+          style={{
+            width: Dimensions.get("window").width - 66,
+            height: 300,
+            borderRadius: 20,
+            borderBlockColor: "gray",
+            padding: 8,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.2,
+            shadowRadius: 4,
+          }}
+        >
+          <ModelRenderView fileName="template.glb" />
         </ThemedView>
       </ThemedView>
     </ParallaxScrollView>

@@ -31,17 +31,12 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="test"
-        options={{
-          title: "test",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="cabinet" color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <IconSymbol
+              size={28}
+              name={focused ? "house.fill" : "house"}
+              color={color}
+            />
           ),
         }}
       />
@@ -49,8 +44,12 @@ export default function TabLayout() {
         name="cabinet"
         options={{
           title: "Cabinet",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="cabinet" color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <IconSymbol
+              size={28}
+              name={focused ? "cabinet.fill" : "cabinet"}
+              color={color}
+            />
           ),
         }}
       />
@@ -60,8 +59,12 @@ export default function TabLayout() {
           headerShown: true,
           headerTitle: "Setting",
           title: "Setting",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="gearshape" color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <IconSymbol
+              size={28}
+              name={focused ? "gearshape.fill" : "gearshape"}
+              color={color}
+            />
           ),
         }}
       />
