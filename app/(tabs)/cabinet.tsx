@@ -45,7 +45,7 @@ export default function CabinetScreen() {
           numColumns={numColumns}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
-          data={[...Array(12).keys()].map((i) => `Item ${i + 1}`)}
+          data={[...Array(6).keys()].map((i) => `Item ${i + 1}`)}
           horizontal={false}
           keyExtractor={(item, index) => index.toString()}
           contentContainerStyle={{

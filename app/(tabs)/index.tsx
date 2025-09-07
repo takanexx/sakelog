@@ -40,24 +40,6 @@ export default function HomeScreen() {
           <ModelRenderView />
         </ThemedView>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Recently</ThemedText>
-        <ThemedView
-          style={{
-            width: Dimensions.get("window").width - 66,
-            height: 300,
-            borderRadius: 20,
-            borderBlockColor: "gray",
-            padding: 8,
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.2,
-            shadowRadius: 4,
-          }}
-        >
-          <ModelRenderView fileName="template.glb" />
-        </ThemedView>
-      </ThemedView>
     </ParallaxScrollView>
   );
 }

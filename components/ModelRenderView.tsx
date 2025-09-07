@@ -1,14 +1,14 @@
 import { Asset } from "expo-asset";
 import { GLView } from "expo-gl";
-import { Renderer, THREE } from "expo-three";
+import { loadAsync, Renderer, THREE } from "expo-three";
 import React, { useRef } from "react";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-export default function ModelRenderView({ fileName }: { fileName?: string }) {
+export default function ModelRenderView() {
   const modelRef = useRef<THREE.Object3D | null>(null);
 
   const loadModel = async (scene: THREE.Scene) => {
-    // モデルの読み込み
+    // 1️⃣ モデルの読み込み
     const modelAsset = Asset.fromModule(
       require("../assets/models/template.glb")
     );
@@ -20,34 +20,22 @@ export default function ModelRenderView({ fileName }: { fileName?: string }) {
     });
 
     const model = gltf.scene;
+    model.scale.set(1.5, 1.5, 1.5);
     scene.add(model);
     modelRef.current = model;
 
-    // ラベル画像の読み込み
-    const labelTexture = new THREE.TextureLoader().load(
-      // Asset.fromModule(require("../assets/labels/test.png")).uri
-      Asset.fromModule(require("../assets/labels/izumi.jpg")).uri
-    );
+    // 2️⃣ ラベルテクスチャの読み込み（事前に await）
+    const labelTexture = await loadAsync(require("../assets/labels/izumi.jpg"));
 
-    // スケール調整（大きい場合は小さくする）
-    model.scale.set(1.5, 1.5, 1.5);
-
-    // "LabelMaterial" を探してテクスチャを適用
+    // 3️⃣ traverse でマテリアルを差し替え
     model.traverse((child: any) => {
-      if (
-        child.isMesh &&
-        child.material &&
-        child.material.name === "LabelMaterial"
-      ) {
-        console.log("Found LabelMaterial, applying texture");
-
-        if (child.geometry.attributes.uv) {
-          console.log("✅ UV展開されています");
-        } else {
-          console.log("❌ UV展開されていません");
-        }
-
-        child.material.map = labelTexture;
+      if (child.isMesh && child.material?.name === "LabelMaterial") {
+        // 元の material を差し替えるのが安全
+        child.material = new THREE.MeshBasicMaterial({
+          map: labelTexture,
+          transparent: true,
+          side: THREE.DoubleSide,
+        });
         child.material.needsUpdate = true;
       }
     });
@@ -75,24 +63,12 @@ export default function ModelRenderView({ fileName }: { fileName?: string }) {
       gl.endFrameEXP();
     };
     render();
-
-    // const animate = () => {
-    //   requestAnimationFrame(animate);
-    //   if (modelRef.current) {
-    //     modelRef.current.rotation.y += 0.01;
-    //   }
-    //   renderer.render(scene, camera);
-    //   gl.endFrameEXP();
-    // };
-    // animate();
   };
 
   return (
     <GLView
       style={{ width: "100%", height: "80%" }}
-      onContextCreate={async (gl) => {
-        await onContextCreate(gl);
-      }}
+      onContextCreate={onContextCreate}
     />
   );
 }
