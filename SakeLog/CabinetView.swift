@@ -43,13 +43,7 @@ struct CabinetView: View {
                 }
             }
             .sheet(isPresented: $isShow) {
-                // モーダルで表示するビュー
-                Text("Search Brand...")
-                TextField("Input something", text: .constant(""))
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                    
-                
+                BrandListView()
             }
         }
     }

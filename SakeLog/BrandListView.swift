@@ -15,21 +15,33 @@ struct BrandListView: View {
         if searchText.isEmpty {
             return allBrands
         } else {
-            return allBrands.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
+            return allBrands.filter { $0.name.localizedCaseInsensitiveContains(searchText) ||
+                ($0.brewery?.name.localizedCaseInsensitiveContains(searchText) ?? false)
+
+            }
         }
     }
     
     var body: some View {
         NavigationStack {
             List(filteredBrands) { brand in
-                VStack(alignment: .leading) {
-                    Text(brand.name)
-                        .font(.headline)
-                    if let breweryId = brand.breweryId {
-                        Text("Brewery ID: \(breweryId)")
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(brand.name)
+                            .font(.headline)
+                        if let brewery = brand.brewery {
+                            Text("酒蔵: \(brewery.name)")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    Spacer()
+                    if let area = brand.brewery?.area {
+                        Text(area.name)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }
+
                 }
                 .padding(.vertical, 4)
             }

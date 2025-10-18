@@ -4,7 +4,6 @@ import SceneKit
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
-
     var body: some View {
         TabView {
             Text("Home")
@@ -15,11 +14,6 @@ struct ContentView: View {
                 .tabItem {
                     Label("Cabinet", systemImage: "cabinet.fill")
                 }
-            BrandListView()
-                .tabItem {
-                    Label("Cabinet", systemImage: "cabinet.fill")
-                }
-            
             SettingView()
                 .tabItem {
                     Label("Setting", systemImage: "gearshape")
