@@ -11,12 +11,20 @@ struct CabinetView: View {
     @State private var isShow = false
     @State private var brand: Brand? = nil
     @State private var memoText: String = ""
+    @State private var selectedType: String? = nil
     
     let columns = [
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10),
         GridItem(.flexible(), spacing: 10)
     ]
+    
+    let types = ["純米", "純米吟醸", "純米大吟醸", "特別純米", "生酒", "吟醸", "大吟醸", "その他"]
+    // レイアウト
+    let typeColumns = [
+        GridItem(.adaptive(minimum: 100), spacing: 10) // 最小幅を指定
+    ]
+
     
     var body: some View {
         NavigationStack {
@@ -76,6 +84,47 @@ struct CabinetView: View {
                         }
                         .padding(.bottom, 30)
                         
+                        // Kind
+                        Text("Kind")
+                            .font(.headline)
+                            .padding(.bottom, 5)
+                        FlowLayout(alignment: .leading, spacing: 7) {
+                            ForEach(types, id: \.self) { type in
+                                Button(action: {
+                                    // 同じボタンを押したら解除、それ以外なら選択
+                                    if selectedType == type {
+                                        selectedType = nil
+                                    } else {
+                                        selectedType = type
+                                    }
+                                }) {
+                                    Text(type)
+                                        .font(.subheadline)
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 5)
+                                        .frame(minWidth: 50)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(
+                                                    selectedType == type ? Color.blue : Color.primary,
+                                                    lineWidth: 1
+                                                )
+                                                .background(
+                                                    RoundedRectangle(cornerRadius: 10)
+                                                        .fill(
+                                                            selectedType == type
+                                                            ? Color.blue.opacity(0.1)
+                                                            : Color.clear
+                                                        )
+                                                )
+                                        )
+                                }
+                                .foregroundColor(selectedType == type ? .blue : .primary)
+
+                            }
+                        }
+                        .padding(.bottom, 30)
+
                         // Label
                         Text("Label Image")
                             .font(.headline)
@@ -128,6 +177,129 @@ struct CabinetView: View {
         }
     }
 }
+
+
+struct FlowLayout: Layout {
+    var alignment: Alignment = .center
+    var spacing: CGFloat?
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout Void) -> CGSize {
+        let result = FlowResult(
+            in: proposal.replacingUnspecifiedDimensions().width,
+            subviews: subviews,
+            alignment: alignment,
+            spacing: spacing
+        )
+        return result.bounds
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout Void) {
+        let result = FlowResult(
+            in: proposal.replacingUnspecifiedDimensions().width,
+            subviews: subviews,
+            alignment: alignment,
+            spacing: spacing
+        )
+        for row in result.rows {
+            let rowXOffset = (bounds.width - row.frame.width) * alignment.horizontal.percent
+            for index in row.range {
+                let xPos = rowXOffset + row.frame.minX + row.xOffsets[index - row.range.lowerBound] + bounds.minX
+                let rowYAlignment = (row.frame.height - subviews[index].sizeThatFits(.unspecified).height) *
+                alignment.vertical.percent
+                let yPos = row.frame.minY + rowYAlignment + bounds.minY
+                subviews[index].place(at: CGPoint(x: xPos, y: yPos), anchor: .topLeading, proposal: .unspecified)
+            }
+        }
+    }
+
+    struct FlowResult {
+        var bounds = CGSize.zero
+        var rows = [Row]()
+
+        struct Row {
+            var range: Range<Int>
+            var xOffsets: [Double]
+            var frame: CGRect
+        }
+
+        init(in maxPossibleWidth: Double, subviews: Subviews, alignment: Alignment, spacing: CGFloat?) {
+            var itemsInRow = 0
+            var remainingWidth = maxPossibleWidth.isFinite ? maxPossibleWidth : .greatestFiniteMagnitude
+            var rowMinY = 0.0
+            var rowHeight = 0.0
+            var xOffsets: [Double] = []
+            for (index, subview) in zip(subviews.indices, subviews) {
+                let idealSize = subview.sizeThatFits(.unspecified)
+                if index != 0 && widthInRow(index: index, idealWidth: idealSize.width) > remainingWidth {
+                    finalizeRow(index: max(index - 1, 0), idealSize: idealSize)
+                }
+                addToRow(index: index, idealSize: idealSize)
+
+                if index == subviews.count - 1 {
+                    finalizeRow(index: index, idealSize: idealSize)
+                }
+            }
+
+            func spacingBefore(index: Int) -> Double {
+                guard itemsInRow > 0 else { return 0 }
+                return spacing ?? subviews[index - 1].spacing.distance(to: subviews[index].spacing, along: .horizontal)
+            }
+
+            func widthInRow(index: Int, idealWidth: Double) -> Double {
+                idealWidth + spacingBefore(index: index)
+            }
+
+            func addToRow(index: Int, idealSize: CGSize) {
+                let width = widthInRow(index: index, idealWidth: idealSize.width)
+
+                xOffsets.append(maxPossibleWidth - remainingWidth + spacingBefore(index: index))
+                remainingWidth -= width
+                rowHeight = max(rowHeight, idealSize.height)
+                itemsInRow += 1
+            }
+
+            func finalizeRow(index: Int, idealSize: CGSize) {
+                let rowWidth = maxPossibleWidth - remainingWidth
+                rows.append(
+                    Row(
+                        range: index - max(itemsInRow - 1, 0) ..< index + 1,
+                        xOffsets: xOffsets,
+                        frame: CGRect(x: 0, y: rowMinY, width: rowWidth, height: rowHeight)
+                    )
+                )
+                bounds.width = max(bounds.width, rowWidth)
+                let ySpacing = spacing ?? ViewSpacing().distance(to: ViewSpacing(), along: .vertical)
+                bounds.height += rowHeight + (rows.count > 1 ? ySpacing : 0)
+                rowMinY += rowHeight + ySpacing
+                itemsInRow = 0
+                rowHeight = 0
+                xOffsets.removeAll()
+                remainingWidth = maxPossibleWidth
+            }
+        }
+    }
+}
+
+private extension HorizontalAlignment {
+    var percent: Double {
+        switch self {
+        case .leading: return 0
+        case .trailing: return 1
+        default: return 0.5
+        }
+    }
+}
+
+private extension VerticalAlignment {
+    var percent: Double {
+        switch self {
+        case .top: return 0
+        case .bottom: return 1
+        default: return 0.5
+        }
+    }
+}
+
 
 #Preview {
     CabinetView()
