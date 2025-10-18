@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BrandListView: View {
+    @Binding var selectedBrand: Brand?
     @State private var searchText = ""
     private let allBrands = Brand.loadFromJSON()
     
@@ -44,6 +45,9 @@ struct BrandListView: View {
 
                 }
                 .padding(.vertical, 4)
+                .onTapGesture {
+                    selectedBrand = brand
+                }
             }
             .navigationTitle("ブランド一覧")
             .searchable(text: $searchText, prompt: "ブランド名を検索")
@@ -52,6 +56,6 @@ struct BrandListView: View {
 }
 
 #Preview {
-    BrandListView()
+    BrandListView(selectedBrand: .constant(nil))
 }
 
