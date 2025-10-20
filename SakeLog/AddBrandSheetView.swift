@@ -6,11 +6,18 @@
 //
 
 import SwiftUI
+import PhotosUI
+import UIKit
 
 struct AddBrandSheetView: View {
     @State private var memoText: String = ""
     @Binding var selectedBrand: Brand?
     @Binding var selectedType: String?
+    
+    @State private var showChoiceDialog = false
+    @State private var showPhotoPicker = false
+    @State private var showCamera = false
+    @State private var selectedImage: UIImage?
     
     let types = ["純米", "純米吟醸", "純米大吟醸", "特別純米", "生酒", "吟醸", "大吟醸", "その他"]
     // レイアウト
@@ -23,7 +30,7 @@ struct AddBrandSheetView: View {
         if selectedBrand != nil {
             ScrollView {
                 VStack (alignment: .leading) {
-                    // Brand Name
+                    // MARK: - Brand Name
                     HStack {
                         Text("Brand Name")
                             .font(.headline)
@@ -51,7 +58,7 @@ struct AddBrandSheetView: View {
                     }
                     .padding(.bottom, 30)
                     
-                    // Kind
+                    // MARK: - Kind
                     Text("Kind")
                         .font(.headline)
                         .padding(.bottom, 5)
@@ -92,38 +99,71 @@ struct AddBrandSheetView: View {
                     }
                     .padding(.bottom, 30)
                     
-                    // Label
+                    // MARK: - Label
                     Text("Label Image")
                         .font(.headline)
                         .padding(.bottom, 5)
-                    HStack {
-                        Button(action: {
-                            // ラベル画像を変更する処理
-                        }) {
-                            HStack(spacing: 8) {
-                                Image(systemName: "photo.on.rectangle.angled") // 好きなSF Symbolアイコン
-                                    .font(.system(size: 20))
-                                Text("Select Label Image")
-                                    .font(.headline)
-                            }
-                            .foregroundColor(.secondary)
-                            .font(.headline)
+                    if let image = selectedImage {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
                             .frame(maxWidth: .infinity)
-                            .frame(height: 100)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                // 枠線はsecondayカラーで点線
-                                    .strokeBorder(Color.secondary, style: StrokeStyle(lineWidth: 1.5, dash: [5]))
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(.clear)
-                                    )
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.secondary.opacity(0.5), lineWidth: 1)
                             )
+                            .padding(.bottom, 30)
+                        Button(action: {
+                            selectedImage = nil // 画像をクリア
+                        }) {
+                            Label("画像を削除", systemImage: "trash")
+                                .foregroundColor(.red)
                         }
+                    } else {
+                        HStack {
+                            Button(action: {
+                                // ラベル画像を変更する処理
+                                showChoiceDialog = true
+                            }) {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "photo.on.rectangle.angled") // 好きなSF Symbolアイコン
+                                        .font(.system(size: 20))
+                                    Text("Select Label Image")
+                                        .font(.headline)
+                                }
+                                .foregroundColor(.secondary)
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 100)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                    // 枠線はsecondayカラーで点線
+                                        .strokeBorder(Color.secondary, style: StrokeStyle(lineWidth: 1.5, dash: [5]))
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .fill(.clear)
+                                        )
+                                )
+                            }
+                            .confirmationDialog("画像を選択", isPresented: $showChoiceDialog) {
+                                Button("カメラで撮影") { showCamera = true }
+                                Button("ライブラリから選択") { showPhotoPicker = true }
+                                Button("キャンセル", role: .cancel) {}
+                            }
+                            // ライブラリ選択
+                            .sheet(isPresented: $showPhotoPicker) {
+                                PhotoPicker(image: $selectedImage)
+                            }
+                            // カメラ撮影
+                            .fullScreenCover(isPresented: $showCamera) {
+                                CameraPicker(image: $selectedImage)
+                            }
+                        }
+                        .padding(.bottom, 30)
                     }
-                    .padding(.bottom, 30)
                     
-                    // Memo
+                    // MARK: - Memo
                     Text("Memo")
                         .font(.headline)
                         .padding(.bottom, 5)
@@ -158,13 +198,82 @@ struct AddBrandSheetView: View {
                                 .fill(.clear)
                         )
                 )
-                .padding(25)
+                .padding(20)
             }
+            .padding(.top, 15)
         } else {
             BrandListView(selectedBrand: $selectedBrand)
         }
     }
 }
+
+
+// MARK: - フォトライブラリ
+struct PhotoPicker: UIViewControllerRepresentable {
+    @Binding var image: UIImage?
+
+    func makeUIViewController(context: Context) -> PHPickerViewController {
+        var config = PHPickerConfiguration()
+        config.filter = .images
+        config.selectionLimit = 1
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, PHPickerViewControllerDelegate {
+        var parent: PhotoPicker
+        init(_ parent: PhotoPicker) { self.parent = parent }
+
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true)
+            guard let provider = results.first?.itemProvider,
+                  provider.canLoadObject(ofClass: UIImage.self) else { return }
+            provider.loadObject(ofClass: UIImage.self) { image, _ in
+                DispatchQueue.main.async {
+                    self.parent.image = image as? UIImage
+                }
+            }
+        }
+    }
+}
+
+// MARK: - カメラ撮影
+struct CameraPicker: UIViewControllerRepresentable {
+    @Binding var image: UIImage?
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        var parent: CameraPicker
+        init(_ parent: CameraPicker) { self.parent = parent }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                parent.image = image
+            }
+            picker.dismiss(animated: true)
+        }
+    }
+}
+
 
 
 #Preview {

@@ -8,7 +8,6 @@ import SwiftUI
 import SceneKit
 
 struct CabinetView: View {
-    @State private var isShow = false
     @State private var brand: Brand? = nil
     @State private var memoText: String = ""
     @State private var selectedType: String? = nil
@@ -44,21 +43,18 @@ struct CabinetView: View {
             .navigationBarTitleDisplayMode(.inline) // タイトルを小さく中央寄せ
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        print("右上ボタン tapped")
-                        isShow.toggle()
-                    }) {
+                    // 🔹 BrandListView への NavigationLink
+                    NavigationLink(destination: BrandListView(selectedBrand: $brand)) {
                         Image(systemName: "plus")
                     }
                 }
             }
-            .sheet(isPresented: $isShow) {
-                // ブランドが選択されている場合は詳細表示、そうでなければリスト表示
-                if brand != nil {
-                    AddBrandSheetView(selectedBrand: $brand, selectedType: $selectedType)
-                } else {
-                    BrandListView(selectedBrand: $brand)
-                }
+            // 🔹 brand が選択されたら AddBrandView に遷移
+            .navigationDestination(isPresented: Binding(
+                get: { brand != nil },
+                set: { if !$0 { brand = nil } }
+            )) {
+                AddBrandSheetView(selectedBrand: $brand, selectedType: $selectedType)
             }
         }
     }
