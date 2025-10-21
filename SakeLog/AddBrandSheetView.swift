@@ -104,21 +104,25 @@ struct AddBrandSheetView: View {
                         .font(.headline)
                         .padding(.bottom, 5)
                     if let image = selectedImage {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxWidth: .infinity)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.secondary.opacity(0.5), lineWidth: 1)
-                            )
-                            .padding(.bottom, 30)
-                        Button(action: {
-                            selectedImage = nil // 画像をクリア
-                        }) {
-                            Label("画像を削除", systemImage: "trash")
-                                .foregroundColor(.red)
+                        ZStack (alignment: .topTrailing) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: .infinity)
+                                .cornerRadius(10)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.secondary.opacity(0.5), lineWidth: 1)
+                                )
+                                .padding(.bottom, 30)
+                            Button(action: {
+                                selectedImage = nil // 画像をクリア
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.system(size: 28))
+                                    .foregroundColor(.white)
+                                    .padding(8)
+                            }
                         }
                     } else {
                         HStack {
