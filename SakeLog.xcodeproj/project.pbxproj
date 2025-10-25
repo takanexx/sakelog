@@ -7,9 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B8839852EABA8B500C2A671 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839842EABA8B500C2A671 /* Realm */; };
-		3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; };
+		3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (Required, ); }; };
+		3BCC3CE12EAC5F1700BA64C7 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3BCC3CE22EAC5F1700BA64C7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3BCC3CE12EAC5F1700BA64C7 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3BA9C2C62E929D070069E1B4 /* SakeLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SakeLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -29,7 +43,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */,
-				3B8839852EABA8B500C2A671 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +75,7 @@
 				3BA9C2C22E929D070069E1B4 /* Sources */,
 				3BA9C2C32E929D070069E1B4 /* Frameworks */,
 				3BA9C2C42E929D070069E1B4 /* Resources */,
+				3BCC3CE22EAC5F1700BA64C7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
