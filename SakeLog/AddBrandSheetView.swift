@@ -70,6 +70,9 @@ struct AddBrandSheetView: View {
                                     selectedType = nil
                                 } else {
                                     selectedType = type
+                                    // 軽い振動
+                                    let generator = UIImpactFeedbackGenerator(style: .light)
+                                    generator.impactOccurred()
                                 }
                             }) {
                                 Text(type)

@@ -26,28 +26,33 @@ struct BrandListView: View {
     var body: some View {
         NavigationStack {
             List(filteredBrands) { brand in
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(brand.name)
-                            .font(.headline)
-                        if let brewery = brand.brewery {
-                            Text("酒蔵: \(brewery.name)")
+                Button(action: {
+                    selectedBrand = brand
+                    // 軽い振動
+                    let generator = UIImpactFeedbackGenerator(style: .light)
+                    generator.impactOccurred()
+                }) {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(brand.name)
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            if let brewery = brand.brewery {
+                                Text("酒蔵: \(brewery.name)")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                        Spacer()
+                        if let area = brand.brewery?.area {
+                            Text(area.name)
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
                     }
-                    Spacer()
-                    if let area = brand.brewery?.area {
-                        Text(area.name)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                    }
-
+                    
                 }
                 .padding(.vertical, 4)
-                .onTapGesture {
-                    selectedBrand = brand
-                }
             }
             .navigationTitle("ブランド一覧")
             .searchable(text: $searchText, prompt: "ブランド名を検索")
