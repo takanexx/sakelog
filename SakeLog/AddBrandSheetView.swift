@@ -8,6 +8,7 @@
 import SwiftUI
 import PhotosUI
 import UIKit
+import RealmSwift
 
 struct AddBrandSheetView: View {
     @State private var memoText: String = ""
@@ -187,6 +188,21 @@ struct AddBrandSheetView: View {
                 
                 Button(action: {
                     // 保存処理
+                    // ここで selectedBrand、selectedType、selectedImage、memoText を使って保存処理を行う
+                    let newSakeLog = SakeLog(
+                        userId: ObjectId(),
+                        brandId: selectedBrand?.id,
+                        kind: selectedType ?? "その他",
+                        laeblUrl: "image-url",
+                        rating: 0,
+                        notes: memoText
+                    )
+                        
+                        
+                    let realm = try! Realm()
+                    try! realm.write {
+                        realm.add(newSakeLog)
+                    }
                 }) {
                     Text("保存")
                         .font(.headline)

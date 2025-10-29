@@ -59,9 +59,9 @@ extension SakeLog {
 }
 
 // MARK: - Realm Configuration
-let config = Realm.Configuration(
-    schemaVersion: 1,
-    deleteRealmIfMigrationNeeded: false // 本番ビルド時にfalseにすること
-)
-
-let realm = try! Realm(configuration: config)
+//let config = Realm.Configuration(
+//    schemaVersion: 1,
+//    deleteRealmIfMigrationNeeded: false // 本番ビルド時にfalseにすること
+//)
+//
+//let realm = try! Realm(configuration: config)
