@@ -203,6 +203,9 @@ struct AddBrandSheetView: View {
                     try! realm.write {
                         realm.add(newSakeLog)
                     }
+                    // 保存後にシートを閉じる
+                    selectedBrand = nil
+                    selectedType = nil
                 }) {
                     Text("保存")
                         .font(.headline)

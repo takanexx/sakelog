@@ -6,8 +6,11 @@
 //
 import SwiftUI
 import SceneKit
+import RealmSwift
 
 struct CabinetView: View {
+    @ObservedResults(SakeLog.self, sortDescriptor: SortDescriptor(keyPath: "date", ascending: false)) private var SakeLogs
+
     @State private var brand: Brand? = nil
     @State private var memoText: String = ""
     @State private var selectedType: String? = nil
@@ -28,8 +31,9 @@ struct CabinetView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
+                Text("lens:  \(SakeLogs.count)")
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(0..<20) { index in
+                    ForEach(SakeLogs, id: \.self) { SakeLog in
                         ModelRenderView(labelImageName: "izumi", allowsCameraControl: false)
                             .frame(height: 200)
                             .background(Color.gray.opacity(0.1))
