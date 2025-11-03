@@ -249,10 +249,11 @@ func getDocumentsDirectory() -> URL {
 
 /// UIImageをDocumentsフォルダに保存し、保存先のURLを返す
 func saveImageToDocuments(image: UIImage) -> String? {
-    let filename = UUID().uuidString + ".png"
+    let filename = UUID().uuidString + ".jpg"
     let url = getDocumentsDirectory().appendingPathComponent(filename)
     
-    if let data = image.pngData() {
+    // JPEGデータに変換して保存
+    if let data = image.jpegData(compressionQuality: 0.9) {
         do {
             try data.write(to: url)
             print("Image saved to: \(url)")

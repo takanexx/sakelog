@@ -8,9 +8,11 @@
 
 import SwiftUI
 import SceneKit
+import RealmSwift
 
 struct SettingView: View {
     @Environment(\.colorScheme) var colorScheme
+    @State private var showAlert = false
     
     var body: some View {
         List() {
@@ -30,6 +32,24 @@ struct SettingView: View {
                 Text("Version 1.0.0")
                 Text("Terms of Service")
                 Text("Privacy Policy")
+            }
+            Section(header: Text("Danger Zone")) {
+                Button(role: .destructive) {
+                    showAlert = true
+                } label: {
+                    Text("Delete Account")
+                }
+            }
+            .alert("確認", isPresented: $showAlert) {
+                Button("削除", role: .destructive) {
+                    try! Realm().write {
+                        try! Realm().deleteAll()
+                    }
+                    print("削除しました")
+                }
+                Button("キャンセル", role: .cancel) { }
+            } message: {
+                Text("データを全て削除してもよろしいですか？")
             }
         }
         .listStyle(InsetGroupedListStyle())

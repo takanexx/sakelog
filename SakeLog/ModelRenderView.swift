@@ -66,13 +66,27 @@ struct ModelRenderView: UIViewRepresentable {
         cameraNode.look(at: SCNVector3(0, 0, 0))
         scene.rootNode.addChildNode(cameraNode)
         
-        // ラベル差し替え
-        if let labelImageName,
-           let image = UIImage(named: labelImageName) {
-            replaceLabelMaterial(in: scene.rootNode, with: image)
-        }
+//        if let labelImageName,
+//           let image = UIImage(named: labelImageName) {
+//            replaceLabelMaterial(in: scene.rootNode, with: image)
+//        }
         
-
+        // MARK: - ラベル差し替え（アプリ内保存画像対応）
+        if let labelImageName {
+            let url = getDocumentsDirectory().appendingPathComponent(labelImageName)
+            print(url)
+            if FileManager.default.fileExists(atPath: url.path),
+               let image = UIImage(contentsOfFile: url.path) {
+                replaceLabelMaterial(in: scene.rootNode, with: image)
+                print("✅ Loaded label image from Documents:", url.lastPathComponent)
+            } else if let fallbackImage = UIImage(named: labelImageName) {
+                // フォールバックとしてBundle内も探す
+                replaceLabelMaterial(in: scene.rootNode, with: fallbackImage)
+                print("⚠️ Used fallback image from Bundle:", labelImageName)
+            } else {
+                print("❌ Label image not found:", labelImageName)
+            }
+        }
 
         return scene
     }

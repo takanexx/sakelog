@@ -34,7 +34,7 @@ struct CabinetView: View {
                 Text("lens:  \(SakeLogs.count)")
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(SakeLogs, id: \.self) { SakeLog in
-                        ModelRenderView(labelImageName: "izumi", allowsCameraControl: false)
+                        ModelRenderView(labelImageName: SakeLog.labelUrl, allowsCameraControl: false)
                             .frame(height: 200)
                             .background(Color.gray.opacity(0.1))
                             .cornerRadius(8)
