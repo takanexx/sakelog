@@ -119,6 +119,7 @@ struct AddBrandSheetView: View {
                                         .stroke(Color.secondary.opacity(0.5), lineWidth: 1)
                                 )
                                 .padding(.bottom, 30)
+                            Text("\(image)")
                             Button(action: {
                                 selectedImage = nil // 画像をクリア
                             }) {
@@ -189,15 +190,13 @@ struct AddBrandSheetView: View {
                 Button(action: {
                     // 保存処理
                     var labelFileName: String? = nil
-                    if let selectedImage {
-                        labelFileName = saveImageToDocuments(image: selectedImage)
-                    }
+                    labelFileName = saveImageToDocuments(image: selectedImage ?? UIImage())
                     // ここで selectedBrand、selectedType、selectedImage、memoText を使って保存処理を行う
                     let newSakeLog = SakeLog(
                         userId: ObjectId(),
                         brandId: selectedBrand?.id,
                         kind: selectedType ?? "その他",
-                        laeblUrl: labelFileName ?? "",
+                        labelUrl: labelFileName ?? "",
                         rating: 0,
                         notes: memoText
                     )
@@ -207,6 +206,7 @@ struct AddBrandSheetView: View {
                     try! realm.write {
                         realm.add(newSakeLog)
                     }
+                    
                     // 保存後にシートを閉じる
                     selectedBrand = nil
                     selectedType = nil

@@ -43,10 +43,11 @@ class SakeLog: Object, Identifiable {
     @Persisted var notes: String?
     @Persisted var date: Date = Date()
     
-    convenience init(userId: ObjectId, brandId: Int?, kind: String, laeblUrl: String, rating: Int?, notes: String?) {
+    convenience init(userId: ObjectId, brandId: Int?, kind: String, labelUrl: String, rating: Int?, notes: String?) {
         self.init()
         self.userId = userId
         self.brandId = brandId
+        self.labelUrl = labelUrl
         self.rating = rating
         self.notes = notes
     }
@@ -54,7 +55,7 @@ class SakeLog: Object, Identifiable {
 // Dummy SakeLog for Preview
 extension SakeLog {
     static func dummy() -> SakeLog {
-        return SakeLog(userId: User.dummy().id, brandId: 1, kind: "純米大吟醸", laeblUrl: "https://example.com/label.png", rating: 4, notes: "とても美味しいお酒でした。")
+        return SakeLog(userId: User.dummy().id, brandId: 1, kind: "純米大吟醸", labelUrl: "https://example.com/label.png", rating: 4, notes: "とても美味しいお酒でした。")
     }
 }
 
