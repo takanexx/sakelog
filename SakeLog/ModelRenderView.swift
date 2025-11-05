@@ -66,11 +66,6 @@ struct ModelRenderView: UIViewRepresentable {
         cameraNode.look(at: SCNVector3(0, 0, 0))
         scene.rootNode.addChildNode(cameraNode)
         
-//        if let labelImageName,
-//           let image = UIImage(named: labelImageName) {
-//            replaceLabelMaterial(in: scene.rootNode, with: image)
-//        }
-        
         // MARK: - ラベル差し替え（アプリ内保存画像対応）
         if let labelImageName {
             let url = getDocumentsDirectory().appendingPathComponent(labelImageName)

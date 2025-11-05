@@ -201,7 +201,6 @@ struct AddBrandSheetView: View {
                         notes: memoText
                     )
                         
-                        
                     let realm = try! Realm()
                     try! realm.write {
                         realm.add(newSakeLog)

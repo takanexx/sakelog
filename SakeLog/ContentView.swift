@@ -21,7 +21,6 @@ struct ContentView: View {
                 }
         }
         .tint(colorScheme == .dark ? .white : .black)
-        .environment(\.realmConfiguration, Realm.Configuration(schemaVersion: 1, deleteRealmIfMigrationNeeded: false))
     }
 }
 
