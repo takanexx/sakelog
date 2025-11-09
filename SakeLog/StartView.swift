@@ -7,20 +7,38 @@
 import SwiftUI
 import RealmSwift
 
+// モデル定義
+struct Item: Identifiable {
+    let id = UUID()
+    let icon: String
+    let description: String
+}
+
+// データ定義
+let items: [Item] = [
+    Item(icon: "🍶", description: "お気に入りの日本酒を記録しよう"),
+    Item(icon: "📷", description: "ラベルを撮って\n自分だけの酒ログに"),
+    Item(icon: "🤮", description: "飲み過ぎにはご注意を🍀"),
+]
+
 struct CarouselView: View {
-    let items = ["🍶", "🍷", "🍺", "🥃", "🍸"]
     @Binding var currentIndex: Int  // ページインデックスを外部から監視
 
 
     var body: some View {
         TabView (selection: $currentIndex) {
-            ForEach(items.indices, id: \.self) { index in
+            ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(Color.blue.opacity(0.1))
                         .shadow(radius: 4)
-                    Text(items[index])
-                        .font(.system(size: 80))
+                    VStack(alignment: .center) {
+                        Text(item.icon)
+                            .font(.system(size: 80))
+                        Text(item.description)
+                            .font(.title3)
+                            .padding(.top, 10)
+                    }
                 }
                 .padding()
                 .tag(index + 1) // 各ページにタグを付与
@@ -87,7 +105,7 @@ struct StartView: View {
     
     /// 最後のページにいるかどうか
     private var isAtLastPage: Bool {
-        currentIndex == 5
+        currentIndex == 3
     }
 }
 
