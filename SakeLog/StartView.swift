@@ -30,7 +30,7 @@ struct CarouselView: View {
             ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.blue.opacity(0.1))
+                        .fill(Color.gray.opacity(0.1))
                         .shadow(radius: 4)
                     VStack(alignment: .center) {
                         Text(item.icon)

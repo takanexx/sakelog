@@ -12,23 +12,28 @@ import RealmSwift
 
 struct SettingView: View {
     @Environment(\.colorScheme) var colorScheme
+    @StateObject private var userManager = UserManager()
     @State private var showAlert = false
-    
+    @State private var isOn = false
+
     var body: some View {
         List() {
             Section(header: Text("Account")) {
-                Text("Profile")
-                Text("Privacy")
-            }
-            Section(header: Text("Notifications")) {
-                Toggle(isOn: .constant(true)) {
-                    Text("Push Notifications")
+                Label("プロフィール", systemImage: "person.circle")
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                HStack{
+                    Label("プラン", systemImage: "star")
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                    Spacer()
+                    Text("\(userManager.currentUser?.plan)")
+                        .bold()
                 }
-                Toggle(isOn: .constant(false)) {
-                    Text("Email Notifications")
+                Toggle(isOn: $isOn) {
+                    Label("テーマ", systemImage: "paintbrush")
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                 }
             }
-            Section(header: Text("About")) {
+            Section(header: Text("App")) {
                 Text("Version 1.0.0")
                 Text("Terms of Service")
                 Text("Privacy Policy")
