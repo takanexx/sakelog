@@ -34,11 +34,14 @@ struct CabinetView: View {
                 Text("lens:  \(SakeLogs.count)")
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(SakeLogs, id: \.self) { SakeLog in
-                        ModelRenderView(labelImageName: SakeLog.labelUrl, allowsCameraControl: false)
-                            .frame(height: 200)
-                            .background(Color.gray.opacity(0.1))
-                            .cornerRadius(8)
-                            .shadow(radius: 2)
+                        // 詳細画面へ遷移
+                        NavigationLink(destination: SakeLogDetailView()) {
+                            ModelRenderView(labelImageName: SakeLog.labelUrl, allowsCameraControl: false)
+                                .frame(height: 200)
+                                .background(Color.gray.opacity(0.1))
+                                .cornerRadius(8)
+                                .shadow(radius: 2)
+                        }
                     }
                 }
                 .padding()

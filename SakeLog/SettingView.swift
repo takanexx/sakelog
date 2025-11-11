@@ -25,16 +25,19 @@ struct SettingView: View {
                     Label("プラン", systemImage: "star")
                         .foregroundColor(colorScheme == .dark ? .white : .black)
                     Spacer()
-                    Text("\(userManager.currentUser?.plan)")
+                    Text("\(userManager.currentUser?.plan ?? "Free")")
                         .bold()
                 }
-                Toggle(isOn: $isOn) {
-                    Label("テーマ", systemImage: "paintbrush")
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                }
+                Label("テーマ", systemImage: "paintbrush")
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
             }
             Section(header: Text("App")) {
-                Text("Version 1.0.0")
+                HStack {
+                    Text("Version")
+                    Spacer()
+                    Text("1.0.0")
+                        .bold()
+                }
                 Text("Terms of Service")
                 Text("Privacy Policy")
             }

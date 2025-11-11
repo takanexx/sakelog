@@ -27,5 +27,4 @@ class UserManager: ObservableObject {
             currentUser = nil
         }
     }
-
 }
