@@ -35,7 +35,7 @@ struct CabinetView: View {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(SakeLogs, id: \.self) { SakeLog in
                         // 詳細画面へ遷移
-                        NavigationLink(destination: SakeLogDetailView()) {
+                        NavigationLink(destination: SakeLogDetailView(sakeLog: SakeLog)) {
                             ModelRenderView(labelImageName: SakeLog.labelUrl, allowsCameraControl: false)
                                 .frame(height: 200)
                                 .background(Color.gray.opacity(0.1))

@@ -86,7 +86,6 @@
 			);
 			name = SakeLog;
 			packageProductDependencies = (
-				3B8839842EABA8B500C2A671 /* Realm */,
 				3B8839862EABA8B500C2A671 /* RealmSwift */,
 			);
 			productName = SakeLog;
@@ -373,11 +372,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3B8839842EABA8B500C2A671 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
 		3B8839862EABA8B500C2A671 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */;
