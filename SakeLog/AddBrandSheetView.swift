@@ -119,7 +119,6 @@ struct AddBrandSheetView: View {
                                         .stroke(Color.secondary.opacity(0.5), lineWidth: 1)
                                 )
                                 .padding(.bottom, 30)
-                            Text("\(image)")
                             Button(action: {
                                 selectedImage = nil // 画像をクリア
                             }) {

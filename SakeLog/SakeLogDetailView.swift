@@ -16,12 +16,15 @@ struct SakeLogDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     // ラベル画像
-                    ModelRenderView(labelImageName: sakeLog.labelUrl, allowsCameraControl: false)
-                        .frame(height: 300)
+                    ModelRenderView(labelImageName: sakeLog.labelUrl, allowsCameraControl: true)
+                        .frame(height: 450)
                         .background(Color.gray.opacity(0.1))
                         .cornerRadius(10)
                         .shadow(radius: 6)
                         .padding(.bottom, 8)
+                    Text("\(sakeLog.brandId)")
+                        .font(.title)
+                        .bold()
 
                     // 酒の種類
                     Text("種類: \(sakeLog.kind)")
@@ -59,14 +62,22 @@ struct SakeLogDetailView: View {
 }
 
 #Preview {
+    let config = Realm.Configuration(inMemoryIdentifier: "preview")
+    let realm = try! Realm(configuration: config)
+
     let previewSakeLog = SakeLog()
     previewSakeLog.userId = ObjectId.generate()
     previewSakeLog.brandId = 101
     previewSakeLog.kind = "純米吟醸"
     previewSakeLog.labelUrl = "izumi"
     previewSakeLog.rating = 4
-    previewSakeLog.notes = "華やかでフルーティーな香り。食中酒としても◎。少し冷やすとより香りが引き立ちます。"
-    
-    SakeLogDetailView(sakeLog: previewSakeLog)
+    previewSakeLog.notes = "華やかでフルーティーな香り。"
+
+    try! realm.write {
+        realm.add(previewSakeLog)
+    }
+
+    return SakeLogDetailView(sakeLog: previewSakeLog)
 }
+
 

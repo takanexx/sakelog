@@ -47,6 +47,7 @@ class SakeLog: Object, Identifiable {
         self.init()
         self.userId = userId
         self.brandId = brandId
+        self.kind = kind
         self.labelUrl = labelUrl
         self.rating = rating
         self.notes = notes
