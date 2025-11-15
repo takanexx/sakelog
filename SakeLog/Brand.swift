@@ -77,4 +77,10 @@ extension Brand {
             return []
         }
     }
+    
+    /// ブランドIdからブランドを取得
+    static func getBrandById(_ id: Int) -> Brand? {
+        let brands = loadFromJSON()
+        return brands.first(where: { $0.id == id })
+    }
 }

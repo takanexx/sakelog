@@ -10,7 +10,9 @@ import RealmSwift
 
 struct SakeLogDetailView: View {
     @ObservedRealmObject var sakeLog: SakeLog
+    @State private var brand: Brand? = nil  // ← ここに格納
 
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -22,7 +24,8 @@ struct SakeLogDetailView: View {
                         .cornerRadius(10)
                         .shadow(radius: 6)
                         .padding(.bottom, 8)
-                    Text("\(sakeLog.brandId)")
+                    // ブランドIDからブランド名を取得して表示
+                    Text("\(brand?.name ?? "不明なブランド")")
                         .font(.title)
                         .bold()
 
@@ -58,6 +61,14 @@ struct SakeLogDetailView: View {
             .navigationTitle("酒ログ詳細")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .task {
+            await loadBrand()
+        }
+    }
+    
+    
+    func loadBrand() async {
+        self.brand = Brand.getBrandById(sakeLog.brandId ?? 0)
     }
 }
 
