@@ -10,7 +10,9 @@ import RealmSwift
 
 struct SakeLogDetailView: View {
     @ObservedRealmObject var sakeLog: SakeLog
-    @State private var brand: Brand? = nil  // ← ここに格納
+    @State private var brand: Brand? = nil  // 銘柄
+    @State private var brewery: Brewery? = nil  // 酒蔵
+    @State private var area: Area? = nil  // 酒蔵の地域
 
     
     var body: some View {
@@ -25,12 +27,22 @@ struct SakeLogDetailView: View {
                         .shadow(radius: 6)
                         .padding(.bottom, 8)
                     // ブランドIDからブランド名を取得して表示
-                    Text("\(brand?.name ?? "不明なブランド")")
-                        .font(.title)
+                    HStack (alignment: .firstTextBaseline, spacing: 8) {
+                        Text("🍶")
+                            .font(.title)
+                        Text("\(brand?.name ?? "不明なブランド")")
+                            .font(.title)
+                            .bold()
+                        Text("\(sakeLog.kind)")
+                            .foregroundColor(.secondary)
+                            .bold()
+                            .padding(.horizontal, 8)
+                    }
+                    Text("\(brand?.brewery?.name ?? "不明な酒蔵") / \(brand?.brewery?.area?.name ?? "不明な地域")")
+                        .font(.title3)
                         .bold()
 
                     // 酒の種類
-                    Text("種類: \(sakeLog.kind)")
                         .font(.headline)
 
                     // 評価
