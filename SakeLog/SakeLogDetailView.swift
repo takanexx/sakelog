@@ -38,9 +38,13 @@ struct SakeLogDetailView: View {
                             .bold()
                             .padding(.horizontal, 8)
                     }
-                    Text("\(brand?.brewery?.name ?? "不明な酒蔵") / \(brand?.brewery?.area?.name ?? "不明な地域")")
-                        .font(.title3)
-                        .bold()
+                    HStack (alignment: .firstTextBaseline, spacing: 8) {
+                        Text("📍")
+                            .font(.title3)
+                        Text("\(brand?.brewery?.name ?? "不明な酒蔵") / \(brand?.brewery?.area?.name ?? "不明な地域")")
+                            .font(.title3)
+                            .bold()
+                    }
 
                     // 酒の種類
                         .font(.headline)
