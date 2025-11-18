@@ -40,19 +40,21 @@ struct SakeLogDetailView: View {
                     }
                     HStack (alignment: .firstTextBaseline, spacing: 8) {
                         Text("📍")
-                            .font(.title3)
                         Text("\(brand?.brewery?.name ?? "不明な酒蔵") / \(brand?.brewery?.area?.name ?? "不明な地域")")
-                            .font(.title3)
                             .bold()
                     }
+                    .font(.title3)
 
                     // 酒の種類
                         .font(.headline)
 
                     // 評価
                     if let rating = sakeLog.rating {
-                        Text("評価: \(rating)/5")
-                            .font(.subheadline)
+                        HStack {
+                            Text("⭐️")
+                            Text("評価: \(rating)/5")
+                        }
+                        .font(.subheadline)
                     }
 
                     // メモ
@@ -63,7 +65,6 @@ struct SakeLogDetailView: View {
                         Text(notes)
                             .font(.body)
                             .foregroundColor(.secondary)
-                            .fixedSize(horizontal: false, vertical: true)
                     }
 
                     // 日付
