@@ -5,8 +5,15 @@
 //  Created by Takane on 2025/10/13.
 //
 import SwiftUI
+import RealmSwift
 
 struct HomeView: View {
+//    直近のSakeLogを取得
+    @ObservedResults(SakeLog.self, sortDescriptor: SortDescriptor(keyPath: "date", ascending: false)) private var recentSakeLogs
+    @State private var brand: Brand? = nil  // 銘柄
+    @State private var brewery: Brewery? = nil  // 酒蔵
+    @State private var area: Area? = nil  // 酒蔵の地域
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -16,17 +23,35 @@ struct HomeView: View {
                         let height = max(600 + minY, 150)  // 縮む上限・下限
                         
                         ZStack(alignment: .bottomLeading) {
-                            ModelRenderView(labelImageName: "izumi", allowsCameraControl: false)
-                                .frame(height: height)
-                                .clipped()
-                            
+                            if recentSakeLogs.isEmpty {
+                                ModelRenderView(labelImageName: "izumi", allowsCameraControl: false)
+                                    .frame(height: height)
+                                    .clipped()
+                            } else {
+                                ModelRenderView(labelImageName: recentSakeLogs[0].labelUrl, allowsCameraControl: false)
+                                    .frame(height: height)
+                                    .clipped()
+                            }
+
                             VStack(alignment: .leading, spacing: 6) {
-                                Text("Promoted")
-                                    .font(.caption)
+                                if (recentSakeLogs.isEmpty) {
+                                    Text("Wlecome to SakeLog")
+                                        .font(.largeTitle)
+                                } else {
+                                    Text("Recently Logged")
+                                        .font(.caption)
+                                }
                                 
-                                Text("Round-the-clock\nwellness")
-                                    .font(.title.bold())
-                                
+                                HStack (alignment: .firstTextBaseline, spacing: 10) {
+                                    Text("🍶")
+                                    Text("\(brand?.name ?? "Discover New Sakes")")
+                                        .font(.title.bold())
+                                    Text("\(brand?.brewery?.name ?? "")")
+                                        .foregroundColor(.secondary)
+                                        
+                                }
+                                .padding(.bottom, 10)
+
                                 Button("Shop now") { }
                                     .padding(.horizontal, 20)
                                     .padding(.vertical, 8)
@@ -65,7 +90,13 @@ struct HomeView: View {
             }
             .navigationBarHidden(true)
         }
-        
+        .task {
+            await loadBrand()
+        }
+    }
+    
+    func loadBrand() async {
+        self.brand = Brand.getBrandById(recentSakeLogs[0].brandId ?? 0)
     }
 }
 
