@@ -48,15 +48,7 @@ struct HomeView: View {
                                         .font(.title.bold())
                                     Text("\(brand?.brewery?.name ?? "")")
                                         .foregroundColor(.secondary)
-                                        
                                 }
-                                .padding(.bottom, 10)
-
-                                Button("Shop now") { }
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 8)
-                                    .background(.white.opacity(0.9))
-                                    .cornerRadius(20)
                             }
                             .padding(20)
                             .shadow(radius: 5)
@@ -66,10 +58,12 @@ struct HomeView: View {
                         .offset(y: -minY)
                     }
                     .frame(height: 400) // ←スクロール前の元高さ
-                    HStack {
-                        Text("Featured Stores")
+                    
+                    HStack{
+                        JapanHeatMapView()
                             .frame(height: 400)
                     }
+
                     HStack {
                         Text("Featured Stores")
                             .frame(height: 400)

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (Required, ); }; };
+		3BB0625A2ED5026300447AAA /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB062592ED5026300447AAA /* SVGKit */; };
+		3BB0625C2ED5026300447AAA /* SVGKitSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB0625B2ED5026300447AAA /* SVGKitSwift */; };
 		3BCC3CE12EAC5F1700BA64C7 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -42,6 +44,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BB0625C2ED5026300447AAA /* SVGKitSwift in Frameworks */,
+				3BB0625A2ED5026300447AAA /* SVGKit in Frameworks */,
 				3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,6 +91,8 @@
 			name = SakeLog;
 			packageProductDependencies = (
 				3B8839862EABA8B500C2A671 /* RealmSwift */,
+				3BB062592ED5026300447AAA /* SVGKit */,
+				3BB0625B2ED5026300447AAA /* SVGKitSwift */,
 			);
 			productName = SakeLog;
 			productReference = 3BA9C2C62E929D070069E1B4 /* SakeLog.app */;
@@ -118,6 +124,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				3BB062582ED5026300447AAA /* XCRemoteSwiftPackageReference "SVGKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BA9C2C72E929D070069E1B4 /* Products */;
@@ -369,6 +376,14 @@
 				kind = branch;
 			};
 		};
+		3BB062582ED5026300447AAA /* XCRemoteSwiftPackageReference "SVGKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SVGKit/SVGKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -376,6 +391,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		3BB062592ED5026300447AAA /* SVGKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3BB062582ED5026300447AAA /* XCRemoteSwiftPackageReference "SVGKit" */;
+			productName = SVGKit;
+		};
+		3BB0625B2ED5026300447AAA /* SVGKitSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3BB062582ED5026300447AAA /* XCRemoteSwiftPackageReference "SVGKit" */;
+			productName = SVGKitSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
