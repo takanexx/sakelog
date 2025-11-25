@@ -10,6 +10,7 @@
 		3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (Required, ); }; };
 		3BB0625A2ED5026300447AAA /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB062592ED5026300447AAA /* SVGKit */; };
 		3BB0625C2ED5026300447AAA /* SVGKitSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB0625B2ED5026300447AAA /* SVGKitSwift */; };
+		3BB062652ED652AB00447AAA /* Macaw in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB062642ED652AB00447AAA /* Macaw */; };
 		3BCC3CE12EAC5F1700BA64C7 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 			files = (
 				3BB0625C2ED5026300447AAA /* SVGKitSwift in Frameworks */,
 				3BB0625A2ED5026300447AAA /* SVGKit in Frameworks */,
+				3BB062652ED652AB00447AAA /* Macaw in Frameworks */,
 				3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +95,7 @@
 				3B8839862EABA8B500C2A671 /* RealmSwift */,
 				3BB062592ED5026300447AAA /* SVGKit */,
 				3BB0625B2ED5026300447AAA /* SVGKitSwift */,
+				3BB062642ED652AB00447AAA /* Macaw */,
 			);
 			productName = SakeLog;
 			productReference = 3BA9C2C62E929D070069E1B4 /* SakeLog.app */;
@@ -125,6 +128,7 @@
 			packageReferences = (
 				3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				3BB062582ED5026300447AAA /* XCRemoteSwiftPackageReference "SVGKit" */,
+				3BB062632ED652AB00447AAA /* XCRemoteSwiftPackageReference "Macaw" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BA9C2C72E929D070069E1B4 /* Products */;
@@ -384,6 +388,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		3BB062632ED652AB00447AAA /* XCRemoteSwiftPackageReference "Macaw" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/Macaw";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.10;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -401,6 +413,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3BB062582ED5026300447AAA /* XCRemoteSwiftPackageReference "SVGKit" */;
 			productName = SVGKitSwift;
+		};
+		3BB062642ED652AB00447AAA /* Macaw */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3BB062632ED652AB00447AAA /* XCRemoteSwiftPackageReference "Macaw" */;
+			productName = Macaw;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

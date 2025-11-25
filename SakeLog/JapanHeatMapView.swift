@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
-import SVGKit
+import Macaw
 
 struct JapanHeatMapView: View {
-    @State private var data: [String: Double] = [  // 都道府県名 → 数値
+    @State private var data: [String: Double] = [
         "Tokyo": 0.8,
         "Osaka": 0.6,
         "Hokkaido": 0.3,
@@ -17,65 +17,62 @@ struct JapanHeatMapView: View {
     ]
 
     var body: some View {
-#if DEBUG
-        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-            Text("SVG Preview Disabled in Xcode Preview")
-                .foregroundColor(.gray)
-        } else {
-                SVGView(named: "jp") { layerName in
-                    // SVG内レイヤー名が都道府県になっている必要あり
-                    if let value = data[layerName] {
-                        Color(hue: 0.3 - value * 0.3,
-                              saturation: 1,
-                              brightness: 1)
-                    } else {
-                        Color.gray.opacity(0.3)
-                    }
-                }
-        }
-#else
-        SVGView(named: "jp") { layerName in
-            // SVG内レイヤー名が都道府県になっている必要あり
-            if let value = data[layerName] {
-                Color(hue: 0.3 - value * 0.3,
-                      saturation: 1,
-                      brightness: 1)
-            } else {
-                Color.gray.opacity(0.3)
-            }
-        }
-        .frame(width: 300, height: 400)
-        .padding()
-#endif
+        MacawSVGView(named: "jp", data: data)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .edgesIgnoringSafeArea(.all) // ← 画面いっぱい
     }
 }
 
 
-//
-//  SVGView.swift
-//
-struct SVGView: UIViewRepresentable {
+
+struct MacawSVGView: UIViewRepresentable {
     let named: String
-    var colorProvider: ((String) -> Color)? = nil
+    let data: [String: Double]
 
-    func makeUIView(context: Context) -> SVGKLayeredImageView {
-        guard let svgImage = SVGKImage(named: named) else {
-            return SVGKLayeredImageView(svgkImage: SVGKImage(named: "jp")!)
-        }
-        return SVGKLayeredImageView(svgkImage: svgImage)
+    func makeUIView(context: Context) -> MacawView {
+        let node = try! SVGParser.parse(resource: named)
+        applyColors(to: node)
+        
+        // MacawViewを画面幅にフィットさせる
+        let view = MacawView(node: node, frame: CGRect.zero)
+        view.contentMode = .scaleAspectFit   // ← これで縦横比を保持しつつ画面に収める
+        view.backgroundColor = .clear
+        return view
     }
 
-    func updateUIView(_ uiView: SVGKLayeredImageView, context: Context) {
-        if let colorProvider = colorProvider,
-           let layers = uiView.layer.sublayers {
-            for layer in layers {
-                if let name = layer.name,
-                   let shapeLayer = layer as? CAShapeLayer {
-                    let uiColor = UIColor(colorProvider(name))
-                    shapeLayer.fillColor = uiColor.cgColor     // ← CAShapeLayer ならOK
-                }
+    func updateUIView(_ uiView: MacawView, context: Context) {
+        if let group = uiView.node as? Macaw.Group {
+            applyColors(to: group)
+        }
+    }
+
+    /// SVG内レイヤー名に応じて色を設定
+    private func applyColors(to node: Macaw.Node) {
+        if let group = node as? Macaw.Group {
+            for child in group.contents {
+                applyColors(to: child)
+            }
+        } else if let shape = node as? Macaw.Shape {
+            let layerNames = shape.tag  // ← Optionalでないので for で回す
+            for layerName in layerNames {
+                let value = data[layerName] ?? 0
+                shape.fill = Macaw.Color.rgb(
+                    r: 255 * (1 - Int(value)),
+                    g: 255 * Int(value),
+                    b: 100
+                )
+                
+                // 境界線を設定
+                shape.stroke = Stroke(
+                    fill: Macaw.Color.white,  // 線の色
+                    width: 1.0                // 線の太さ
+                )
             }
         }
     }
 }
 
+
+#Preview {
+    JapanHeatMapView()
+}

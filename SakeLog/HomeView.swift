@@ -57,14 +57,17 @@ struct HomeView: View {
                         .frame(height: height)
                         .offset(y: -minY)
                     }
-                    .frame(height: 400) // ←スクロール前の元高さ
+                    .frame(height: 600) // ←スクロール前の元高さ
                     
-                    HStack{
+                    
+                    VStack(spacing: 20) {
                         JapanHeatMapView()
-                            .frame(height: 400)
+//                        .frame(height: UIScreen.main.bounds.height * 0.45)  // ← 高さは画面に応じて決定
+                        .background(Color.gray.opacity(0.05))
                     }
+                    .padding(.horizontal)
 
-                    HStack {
+                    VStack {
                         Text("Featured Stores")
                             .frame(height: 400)
                             .foregroundColor(.red)
