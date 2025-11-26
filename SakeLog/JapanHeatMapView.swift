@@ -17,9 +17,11 @@ struct JapanHeatMapView: View {
     ]
 
     var body: some View {
-        MacawSVGView(named: "jp", data: data)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .edgesIgnoringSafeArea(.all) // ← 画面いっぱい
+        GeometryReader { geo in
+            MacawSVGView(named: "jp", data: data, viewSize: geo.size)
+                .frame(width: geo.size.width, height: geo.size.height)
+        }
+        .ignoresSafeArea()   // ← 画面いっぱいに使う
     }
 }
 
@@ -28,15 +30,16 @@ struct JapanHeatMapView: View {
 struct MacawSVGView: UIViewRepresentable {
     let named: String
     let data: [String: Double]
+    let viewSize: CGSize
 
     func makeUIView(context: Context) -> MacawView {
         let node = try! SVGParser.parse(resource: named)
         applyColors(to: node)
-        
-        // MacawViewを画面幅にフィットさせる
-        let view = MacawView(node: node, frame: CGRect.zero)
-        view.contentMode = .scaleAspectFit   // ← これで縦横比を保持しつつ画面に収める
+
+        node.place = Transform.scale(sx: 0.5, sy: 0.5) // 50%に縮小
+        let view = MacawView(node: node, frame: CGRect(origin: .zero, size: viewSize))
         view.backgroundColor = .clear
+        
         return view
     }
 
