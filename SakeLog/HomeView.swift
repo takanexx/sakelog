@@ -61,10 +61,11 @@ struct HomeView: View {
                     
                     
                     VStack(spacing: 20) {
-                        JapanHeatMapView()
-                        .frame(height: UIScreen.main.bounds.height * 0.45)  // ← 高さは画面に応じて決定
-                        .scaledToFit()
-                        .background(Color.gray.opacity(0.05))
+                        JapanMapView()
+//                        JapanHeatMapView()
+//                        .frame(height: UIScreen.main.bounds.height * 0.45)  // ← 高さは画面に応じて決定
+//                        .scaledToFit()
+//                        .background(Color.gray.opacity(0.05))
                     }
                     .padding(.horizontal)
 

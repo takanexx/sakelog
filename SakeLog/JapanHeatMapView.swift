@@ -19,12 +19,10 @@ struct JapanHeatMapView: View {
     var body: some View {
         GeometryReader { geo in
             MacawSVGView(named: "jp", data: data, viewSize: geo.size)
-                .frame(width: geo.size.width, height: geo.size.height)
         }
         .ignoresSafeArea()   // ← 画面いっぱいに使う
     }
 }
-
 
 
 struct MacawSVGView: UIViewRepresentable {
@@ -36,9 +34,15 @@ struct MacawSVGView: UIViewRepresentable {
         let node = try! SVGParser.parse(resource: named)
         applyColors(to: node)
 
-        node.place = Transform.scale(sx: 0.5, sy: 0.5) // 50%に縮小
         let view = MacawView(node: node, frame: CGRect(origin: .zero, size: viewSize))
         view.backgroundColor = .clear
+
+        // **レイアウト後に縮尺計算を行う**
+        DispatchQueue.main.async {
+//            fitToView(node: node, view: view)
+            self.resizeAndCenter(node: node, size: viewSize)
+
+        }
         
         return view
     }
@@ -46,8 +50,33 @@ struct MacawSVGView: UIViewRepresentable {
     func updateUIView(_ uiView: MacawView, context: Context) {
         if let group = uiView.node as? Macaw.Group {
             applyColors(to: group)
+//            fitToView(node: group, view: uiView)   // ← 更新時にも実行
+            resizeAndCenter(node: group, size: viewSize) // 更新時も実行
+
         }
     }
+    
+    private func resizeAndCenter(node: Macaw.Node, size viewSize: CGSize) {
+        guard let group = node as? Macaw.Group else { return }
+        guard let bounds = group.bounds else { return }   // ← Optional をアンラップ
+
+        // 正しい SVG サイズを取得
+        let svgSize = bounds.size()
+
+        guard svgSize.w > 0, svgSize.h > 0 else { return }
+
+        let scaleX = viewSize.width / svgSize.w
+        let scaleY = viewSize.height / svgSize.h
+        let scale = min(scaleX, scaleY)
+
+        // 中央寄せ
+        let offsetX = (viewSize.width  - svgSize.w * scale) / 2
+        let offsetY = (viewSize.height - svgSize.h * scale) / 2
+
+        group.place = Transform.move(dx: offsetX, dy: offsetY)
+            .scale(sx: scale, sy: scale)
+    }
+    
 
     /// SVG内レイヤー名に応じて色を設定
     private func applyColors(to node: Macaw.Node) {
@@ -74,7 +103,6 @@ struct MacawSVGView: UIViewRepresentable {
         }
     }
 }
-
 
 #Preview {
     JapanHeatMapView()
