@@ -16,7 +16,7 @@ struct JapanMapView: UIViewRepresentable {
         
         // SVGをCALayerとして読み込み
         let _ = CALayer(SVGURL: svgURL) { layer in
-            let targetWidth = UIScreen.main.bounds.width * 0.7
+            let targetWidth = UIScreen.main.bounds.width * 0.8
             let boundingBox = layer.boundingBox
             let scale = targetWidth / boundingBox.width
             layer.setAffineTransform(CGAffineTransform(scaleX: scale, y: scale))
@@ -24,7 +24,7 @@ struct JapanMapView: UIViewRepresentable {
             // 中央配置
             layer.position = CGPoint(x: container.bounds.midX * 0.7,
                                      y: container.bounds.midY * 0.7)
-            
+            layer.fillColor = UIColor.red.cgColor // デフォルトの塗り色
             container.layer.addSublayer(layer)
         }
         
@@ -40,7 +40,7 @@ struct JapanMapView: UIViewRepresentable {
 struct JapanMapView_Previews: PreviewProvider {
     static var previews: some View {
         JapanMapView()
-//            .frame(width: 300, height: 400) // プレビュー用にサイズを指定
+            .frame(width: 600, height: 600) // プレビュー用にサイズを指定
             .background(Color.gray.opacity(0.2))
     }
 }
