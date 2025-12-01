@@ -40,7 +40,7 @@ struct MacawSVGView: UIViewRepresentable {
         // **レイアウト後に縮尺計算を行う**
         DispatchQueue.main.async {
 //            fitToView(node: node, view: view)
-            self.resizeAndCenter(node: node, size: viewSize)
+            self.resizeAndCenter(node, size: viewSize)
 
         }
         
@@ -51,31 +51,61 @@ struct MacawSVGView: UIViewRepresentable {
         if let group = uiView.node as? Macaw.Group {
             applyColors(to: group)
 //            fitToView(node: group, view: uiView)   // ← 更新時にも実行
-            resizeAndCenter(node: group, size: viewSize) // 更新時も実行
+            resizeAndCenter(group, size: viewSize) // 更新時も実行
 
         }
     }
     
-    private func resizeAndCenter(node: Macaw.Node, size viewSize: CGSize) {
+    private func resizeAndCenter(_ node: Node, size viewSize: CGSize) {
         guard let group = node as? Macaw.Group else { return }
-        guard let bounds = group.bounds else { return }   // ← Optional をアンラップ
 
-        // 正しい SVG サイズを取得
-        let svgSize = bounds.size()
+        // --- ① Shape の bounds を全部統合して正しい地図範囲を作る ---
+        var minX = CGFloat.greatestFiniteMagnitude
+        var minY = CGFloat.greatestFiniteMagnitude
+        var maxX = CGFloat.leastNormalMagnitude
+        var maxY = CGFloat.leastNormalMagnitude
 
-        guard svgSize.w > 0, svgSize.h > 0 else { return }
+        func collectBounds(_ n: Node) {
+            if let shape = n as? Macaw.Shape, let b = shape.bounds {
+                minX = min(minX, CGFloat(b.x))
+                minY = min(minY, CGFloat(b.y))
+                maxX = max(maxX, CGFloat(b.x + b.w))
+                maxY = max(maxY, CGFloat(b.y + b.h))
+            }
 
-        let scaleX = viewSize.width / svgSize.w
-        let scaleY = viewSize.height / svgSize.h
-        let scale = min(scaleX, scaleY)
+            if let g = n as? Macaw.Group {
+                for child in g.contents {
+                    collectBounds(child)
+                }
+            }
+        }
 
-        // 中央寄せ
-        let offsetX = (viewSize.width  - svgSize.w * scale) / 2
-        let offsetY = (viewSize.height - svgSize.h * scale) / 2
+        collectBounds(group)
 
-        group.place = Transform.move(dx: offsetX, dy: offsetY)
-            .scale(sx: scale, sy: scale)
+        // SVG 実サイズ
+        let svgWidth  = maxX - minX
+        let svgHeight = maxY - minY
+        if svgWidth <= 0 || svgHeight <= 0 { return }
+
+        // --- ② 画面にフィットするスケール ---
+        let scale = min(viewSize.width / svgWidth,
+                        viewSize.height / svgHeight)
+
+        // スケール後の大きさ
+        let scaledW = svgWidth * scale
+        let scaledH = svgHeight * scale
+
+        // --- ③ 中央寄せ ---
+        let offsetX = (viewSize.width  - scaledW) / 2
+        let offsetY = (viewSize.height - scaledH) / 2
+
+        // --- ④ Transform の順番が超重要 ---
+        group.place =
+            Transform.move(dx: -minX, dy: -minY) // ① 正しい原点に移動
+                .scale(sx: scale, sy: scale)     // ② スケール
+                .move(dx: offsetX, dy: offsetY)  // ③ 中央へ
     }
+
     
 
     /// SVG内レイヤー名に応じて色を設定
