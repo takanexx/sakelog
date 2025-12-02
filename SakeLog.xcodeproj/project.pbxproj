@@ -8,10 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (Required, ); }; };
-		3BB0625A2ED5026300447AAA /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB062592ED5026300447AAA /* SVGKit */; };
-		3BB0625C2ED5026300447AAA /* SVGKitSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB0625B2ED5026300447AAA /* SVGKitSwift */; };
-		3BB062652ED652AB00447AAA /* Macaw in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB062642ED652AB00447AAA /* Macaw */; };
-		3BB0626D2EDA819200447AAA /* SwiftSVG in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB0626C2EDA819200447AAA /* SwiftSVG */; };
 		3BCC3CE12EAC5F1700BA64C7 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -46,10 +42,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3BB0626D2EDA819200447AAA /* SwiftSVG in Frameworks */,
-				3BB0625C2ED5026300447AAA /* SVGKitSwift in Frameworks */,
-				3BB0625A2ED5026300447AAA /* SVGKit in Frameworks */,
-				3BB062652ED652AB00447AAA /* Macaw in Frameworks */,
 				3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,10 +87,6 @@
 			name = SakeLog;
 			packageProductDependencies = (
 				3B8839862EABA8B500C2A671 /* RealmSwift */,
-				3BB062592ED5026300447AAA /* SVGKit */,
-				3BB0625B2ED5026300447AAA /* SVGKitSwift */,
-				3BB062642ED652AB00447AAA /* Macaw */,
-				3BB0626C2EDA819200447AAA /* SwiftSVG */,
 			);
 			productName = SakeLog;
 			productReference = 3BA9C2C62E929D070069E1B4 /* SakeLog.app */;
@@ -130,9 +118,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */,
-				3BB062582ED5026300447AAA /* XCRemoteSwiftPackageReference "SVGKit" */,
-				3BB062632ED652AB00447AAA /* XCRemoteSwiftPackageReference "Macaw" */,
-				3BB0626B2EDA819200447AAA /* XCRemoteSwiftPackageReference "SwiftSVG" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BA9C2C72E929D070069E1B4 /* Products */;
@@ -384,30 +369,6 @@
 				kind = branch;
 			};
 		};
-		3BB062582ED5026300447AAA /* XCRemoteSwiftPackageReference "SVGKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SVGKit/SVGKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
-			};
-		};
-		3BB062632ED652AB00447AAA /* XCRemoteSwiftPackageReference "Macaw" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/exyte/Macaw";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.10;
-			};
-		};
-		3BB0626B2EDA819200447AAA /* XCRemoteSwiftPackageReference "SwiftSVG" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mchoe/SwiftSVG.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -415,26 +376,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
-		};
-		3BB062592ED5026300447AAA /* SVGKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3BB062582ED5026300447AAA /* XCRemoteSwiftPackageReference "SVGKit" */;
-			productName = SVGKit;
-		};
-		3BB0625B2ED5026300447AAA /* SVGKitSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3BB062582ED5026300447AAA /* XCRemoteSwiftPackageReference "SVGKit" */;
-			productName = SVGKitSwift;
-		};
-		3BB062642ED652AB00447AAA /* Macaw */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3BB062632ED652AB00447AAA /* XCRemoteSwiftPackageReference "Macaw" */;
-			productName = Macaw;
-		};
-		3BB0626C2EDA819200447AAA /* SwiftSVG */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3BB0626B2EDA819200447AAA /* XCRemoteSwiftPackageReference "SwiftSVG" */;
-			productName = SwiftSVG;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

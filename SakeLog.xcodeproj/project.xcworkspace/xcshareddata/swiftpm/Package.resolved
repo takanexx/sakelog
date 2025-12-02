@@ -1,24 +1,6 @@
 {
-  "originHash" : "e91323563c281fcdea56f06517a369cd1e7c19974c61415dcbb6591f1f8ac7fe",
+  "originHash" : "182db11c87d1734fe53a6366b674339f70901a93290bd85def29b63e25e34c43",
   "pins" : [
-    {
-      "identity" : "cocoalumberjack",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/CocoaLumberjack/CocoaLumberjack.git",
-      "state" : {
-        "revision" : "a9ed4b6f9bdedce7d77046f43adfb8ce1fd54114",
-        "version" : "3.9.0"
-      }
-    },
-    {
-      "identity" : "macaw",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/exyte/Macaw",
-      "state" : {
-        "revision" : "29ec199cbc9c814f8ceffc1a33b8775b7349dcdd",
-        "version" : "0.9.10"
-      }
-    },
     {
       "identity" : "realm-core",
       "kind" : "remoteSourceControl",
@@ -35,42 +17,6 @@
       "state" : {
         "branch" : "master",
         "revision" : "c22f9303d446fc3c044e4c151ed19597464b6bd7"
-      }
-    },
-    {
-      "identity" : "svgkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SVGKit/SVGKit",
-      "state" : {
-        "revision" : "58152b9f7c85eab239160b36ffdfd364aa43d666",
-        "version" : "3.0.0"
-      }
-    },
-    {
-      "identity" : "swift-log",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-log",
-      "state" : {
-        "revision" : "ce592ae52f982c847a4efc0dd881cc9eb32d29f2",
-        "version" : "1.6.4"
-      }
-    },
-    {
-      "identity" : "swiftsvg",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/mchoe/SwiftSVG.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "88b9ee086b29019e35f6f49c8e30e5552eb8fa9d"
-      }
-    },
-    {
-      "identity" : "swxmlhash",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/drmohundro/SWXMLHash",
-      "state" : {
-        "revision" : "6469881a3f30417c5bb02404ea4b69207f297592",
-        "version" : "6.0.0"
       }
     }
   ],

@@ -61,11 +61,7 @@ struct HomeView: View {
                     
                     
                     VStack(spacing: 20) {
-//                        JapanMapView()
-                        JapanHeatMapView()
-//                        .frame(height: UIScreen.main.bounds.height * 0.45)  // ← 高さは画面に応じて決定
-//                        .scaledToFit()
-//                        .background(Color.gray.opacity(0.05))
+                        Text("Featured Stores")
                     }
                     .padding(.horizontal)
 
@@ -75,17 +71,6 @@ struct HomeView: View {
                             .foregroundColor(.red)
                     }
                 }
-                
-                
-                // MARK: - SearchBar
-                //                        SearchBarView()
-                //                            .padding(.horizontal)
-                //                            .padding(.top, -10)
-                //
-                //                        // MARK: - Featured Stores
-                //                        FeaturedStoresView()
-                //                            .padding(.top, 10)
-                
             }
             .navigationBarHidden(true)
         }
