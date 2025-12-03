@@ -59,17 +59,19 @@ struct HomeView: View {
                     }
                     .frame(height: 600) // ←スクロール前の元高さ
                     
-                    
-                    VStack(spacing: 20) {
-                        Text("Featured Stores")
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("今月の記録")
+                            .font(.title2.bold())
+                        VStack (alignment: .leading, spacing: 6) {
+                            Text("🍶 12 本")
+                            Text("🏷️ 大吟醸, 純米吟醸, その他")
+                            Text("📍 北海道, 新潟, 愛知, その他3件")
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
-
-                    VStack {
-                        Text("Featured Stores")
-                            .frame(height: 400)
-                            .foregroundColor(.red)
-                    }
                 }
             }
             .navigationBarHidden(true)
