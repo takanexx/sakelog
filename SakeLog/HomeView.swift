@@ -62,13 +62,44 @@ struct HomeView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("今月の記録")
                             .font(.title2.bold())
-                        VStack (alignment: .leading, spacing: 6) {
-                            Text("🍶 12 本")
-                            Text("🏷️ 大吟醸, 純米吟醸, その他")
-                            Text("📍 北海道, 新潟, 愛知, その他3件")
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.gray.opacity(0.1))
+                                .shadow(radius: 4)
+                            VStack (alignment: .leading, spacing: 10) {
+                                HStack (alignment: .center, spacing: 3) {
+                                    Text("🍶")
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                    Text("12")
+                                        .font(.title)
+                                        .fontWeight(.bold)
+                                    Text("銘柄")
+                                        .baselineOffset(-5)
+                                }
+                                HStack (alignment: .center, spacing: 3) {
+                                    Text("🏷️")
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                    Text("大吟醸 純米吟醸")
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                    Text("その他")
+                                }
+                                HStack (alignment: .center, spacing: 3) {
+                                    Text("📍")
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                    Text("北海道 新潟 愛知")
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                    Text("その他3件")
+                                }
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.vertical)
+                        .padding(.vertical, 2)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
