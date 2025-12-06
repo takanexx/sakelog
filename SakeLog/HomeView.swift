@@ -14,10 +14,15 @@ struct HomeView: View {
     @State private var brewery: Brewery? = nil  // 酒蔵
     @State private var area: Area? = nil  // 酒蔵の地域
     
+    @State private var tip: SakeTip = sakeTips.randomElement()!
+
+    
+    
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
+                    // 最近のSakeLogラベル画像
                     GeometryReader { geo in
                         let minY = geo.frame(in: .global).minY
                         let height = max(600 + minY, 150)  // 縮む上限・下限
@@ -59,6 +64,40 @@ struct HomeView: View {
                     }
                     .frame(height: 600) // ←スクロール前の元高さ
                     
+                    // 日本酒豆知識
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("今日の日本酒豆知識")
+                            .font(.title2.bold())
+
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.gray.opacity(0.1))
+                                .shadow(radius: 4)
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text(tip.emoji)
+                                        .font(.title3)
+                                    Text(tip.text)
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+
+                                Button(action: {
+                                    tip = sakeTips.randomElement()!
+                                }) {
+                                    Text("別の豆知識を見る")
+                                        .font(.footnote)
+                                }
+                                .padding(.top, 6)
+                            }
+                            .padding()
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+
+                    // 今月の記録
                     VStack(alignment: .leading, spacing: 10) {
                         Text("今月の記録")
                             .font(.title2.bold())
@@ -103,6 +142,7 @@ struct HomeView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
+                    
                 }
             }
             .navigationBarHidden(true)
