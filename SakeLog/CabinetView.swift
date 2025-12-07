@@ -31,7 +31,6 @@ struct CabinetView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                Text("lens:  \(SakeLogs.count)")
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(SakeLogs, id: \.self) { SakeLog in
                         // 詳細画面へ遷移

@@ -10,6 +10,8 @@ import RealmSwift
 struct HomeView: View {
 //    直近のSakeLogを取得
     @ObservedResults(SakeLog.self, sortDescriptor: SortDescriptor(keyPath: "date", ascending: false)) private var recentSakeLogs
+    // 今月の記録
+    @ObservedResults(SakeLog.self, where: {$0.date >= Date.startOfThisMonth && $0.date <= Date.endOfThisMonth}) private var thisMonthSakeLogs
     @State private var brand: Brand? = nil  // 銘柄
     @State private var brewery: Brewery? = nil  // 酒蔵
     @State private var area: Area? = nil  // 酒蔵の地域
@@ -43,7 +45,7 @@ struct HomeView: View {
                                     Text("Wlecome to SakeLog")
                                         .font(.largeTitle)
                                 } else {
-                                    Text("Recently Logged")
+                                    Text("最近飲んだ日本酒")
                                         .font(.caption)
                                 }
                                 

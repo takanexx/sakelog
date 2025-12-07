@@ -19,8 +19,8 @@ struct SettingView: View {
     var body: some View {
         List() {
             Section(header: Text("Account")) {
-                Label("プロフィール", systemImage: "person.circle")
-                    .foregroundColor(colorScheme == .dark ? .white : .black)
+//                Label("プロフィール", systemImage: "person.circle")
+//                    .foregroundColor(colorScheme == .dark ? .white : .black)
                 HStack{
                     Label("プラン", systemImage: "star")
                         .foregroundColor(colorScheme == .dark ? .white : .black)
@@ -28,24 +28,29 @@ struct SettingView: View {
                     Text("\(userManager.currentUser?.plan ?? "Free")")
                         .bold()
                 }
-                Label("テーマ", systemImage: "paintbrush")
-                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                HStack {
+                    Label("テーマ", systemImage: "paintbrush")
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
+                    Spacer()
+                    Text("\(getThemeName())")
+                        .bold()
+                }
             }
             Section(header: Text("App")) {
                 HStack {
-                    Text("Version")
+                    Text("バージョン")
                     Spacer()
                     Text("1.0.0")
                         .bold()
                 }
-                Text("Terms of Service")
-                Text("Privacy Policy")
+                Text("利用規約")
+                Text("プライバシーポリシー")
             }
-            Section(header: Text("Danger Zone")) {
+            Section() {
                 Button(role: .destructive) {
                     showAlert = true
                 } label: {
-                    Text("Delete Account")
+                    Text("アカウントを削除")
                 }
             }
             .alert("確認", isPresented: $showAlert) {
@@ -63,7 +68,15 @@ struct SettingView: View {
         .listStyle(InsetGroupedListStyle())
     }
     
-   
+    func getThemeName() -> String {
+        if colorScheme == .dark {
+            return "ダーク"
+        } else if colorScheme == .light {
+            return "ライト"
+        } else {
+            return "システム"
+        }
+    }
 }
 
 #Preview {
