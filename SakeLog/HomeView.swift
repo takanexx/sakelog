@@ -108,33 +108,47 @@ struct HomeView: View {
                                 .fill(Color.gray.opacity(0.1))
                                 .shadow(radius: 4)
                             VStack (alignment: .leading, spacing: 10) {
-                                HStack (alignment: .center, spacing: 3) {
-                                    Text("🍶")
-                                        .font(.title3)
-                                        .fontWeight(.bold)
-                                    Text("12")
-                                        .font(.title)
-                                        .fontWeight(.bold)
-                                    Text("銘柄")
-                                        .baselineOffset(-5)
-                                }
-                                HStack (alignment: .center, spacing: 3) {
-                                    Text("🏷️")
-                                        .font(.title3)
-                                        .fontWeight(.bold)
-                                    Text("大吟醸 純米吟醸")
-                                        .font(.title3)
-                                        .fontWeight(.bold)
-                                    Text("その他")
-                                }
-                                HStack (alignment: .center, spacing: 3) {
-                                    Text("📍")
-                                        .font(.title3)
-                                        .fontWeight(.bold)
-                                    Text("北海道 新潟 愛知")
-                                        .font(.title3)
-                                        .fontWeight(.bold)
-                                    Text("その他3件")
+                                if thisMonthSakeLogs.isEmpty {
+                                    Text("今月の記録はまだありません")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                } else {
+                                    HStack (alignment: .center, spacing: 5) {
+                                        Text("🍶")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                        Text("\(thisMonthSakeLogs.count)")
+                                            .font(.title)
+                                            .fontWeight(.bold)
+                                        Text("銘柄")
+                                            .baselineOffset(-5)
+                                    }
+                                    HStack (alignment: .center, spacing: 5) {
+                                        Text("🏷️")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                        // 銘柄の名前を全て表示
+                                        Text("\(Set(thisMonthSakeLogs.compactMap { Brand.getBrandById($0.brandId ?? 0)?.brewery?.name }).joined(separator: " 、"))")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                        // 銘柄が多い場合はその他○件と表示
+                                        if thisMonthSakeLogs.count > 3 {
+                                            Text("その他\(thisMonthSakeLogs.count - 3)件")
+                                        }
+                                    }
+                                    HStack (alignment: .center, spacing: 5) {
+                                        Text("📍")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                        // 地域の名前を全て表示
+                                        Text("\(Set(thisMonthSakeLogs.compactMap { Brand.getBrandById($0.brandId ?? 0)?.brewery?.area?.name }).joined(separator: " 、"))")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                        // 地域が多い場合はその他○件と表示
+                                        if thisMonthSakeLogs.count > 3 {
+                                            Text("その他\(thisMonthSakeLogs.count - 3)件")
+                                        }
+                                    }
                                 }
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -144,7 +158,6 @@ struct HomeView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
-                    
                 }
             }
             .navigationBarHidden(true)
