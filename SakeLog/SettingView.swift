@@ -17,55 +17,61 @@ struct SettingView: View {
     @State private var isOn = false
 
     var body: some View {
-        List() {
-            Section(header: Text("Account")) {
-//                Label("プロフィール", systemImage: "person.circle")
-//                    .foregroundColor(colorScheme == .dark ? .white : .black)
-                HStack{
-                    Label("プラン", systemImage: "star")
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                    Spacer()
-                    Text("\(userManager.currentUser?.plan ?? "Free")")
-                        .bold()
-                }
-                HStack {
-                    Label("テーマ", systemImage: "paintbrush")
-                        .foregroundColor(colorScheme == .dark ? .white : .black)
-                    Spacer()
-                    Text("\(getThemeName())")
-                        .bold()
-                }
-            }
-            Section(header: Text("App")) {
-                HStack {
-                    Text("バージョン")
-                    Spacer()
-                    Text("1.0.0")
-                        .bold()
-                }
-                Text("利用規約")
-                Text("プライバシーポリシー")
-            }
-            Section() {
-                Button(role: .destructive) {
-                    showAlert = true
-                } label: {
-                    Text("アカウントを削除")
-                }
-            }
-            .alert("確認", isPresented: $showAlert) {
-                Button("削除", role: .destructive) {
-                    try! Realm().write {
-                        try! Realm().deleteAll()
+        NavigationStack {
+            
+            List() {
+                Section(header: Text("Account")) {
+                    //                Label("プロフィール", systemImage: "person.circle")
+                    //                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                    HStack{
+                        Label("プラン", systemImage: "star")
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                        Spacer()
+                        Text("\(userManager.currentUser?.plan ?? "Free")")
+                            .bold()
                     }
-                    print("削除しました")
+                    HStack {
+                        Label("テーマ", systemImage: "paintbrush")
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                        Spacer()
+                        Text("\(getThemeName())")
+                            .bold()
+                    }
                 }
-                Button("キャンセル", role: .cancel) { }
-            } message: {
-                Text("データを全て削除してもよろしいですか？")
+                Section(header: Text("App")) {
+                    HStack {
+                        Text("バージョン")
+                        Spacer()
+                        Text("1.0.0")
+                            .bold()
+                    }
+                    Text("利用規約")
+                    Text("プライバシーポリシー")
+                    NavigationLink(destination: AboutSakeDataView()) {
+                        Text("銘柄データについて")
+                    }
+                }
+                Section() {
+                    Button(role: .destructive) {
+                        showAlert = true
+                    } label: {
+                        Text("アカウントを削除")
+                    }
+                }
+                .alert("確認", isPresented: $showAlert) {
+                    Button("削除", role: .destructive) {
+                        try! Realm().write {
+                            try! Realm().deleteAll()
+                        }
+                        print("削除しました")
+                    }
+                    Button("キャンセル", role: .cancel) { }
+                } message: {
+                    Text("データを全て削除してもよろしいですか？")
+                }
             }
+            .listStyle(InsetGroupedListStyle())
         }
-        .listStyle(InsetGroupedListStyle())
     }
     
     func getThemeName() -> String {
