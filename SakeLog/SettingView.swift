@@ -45,10 +45,22 @@ struct SettingView: View {
                         Text("1.0.0")
                             .bold()
                     }
-                    Text("利用規約")
-                    Text("プライバシーポリシー")
                     NavigationLink(destination: AboutSakeDataView()) {
                         Text("銘柄データについて")
+                    }
+                    Link(destination: URL(string: "https://www.gakux.net/terms-of-use")!) {
+                        HStack(spacing: 6) {
+                            Text("利用規約")
+                            Image(systemName: "arrow.up.forward.app")
+                        }
+                        .foregroundColor(.primary)
+                    }
+                    Link(destination: URL(string: "https://www.gakux.net/privacy-policy")!) {
+                        HStack(spacing: 6) {
+                            Text("プライバシーポリシー")
+                            Image(systemName: "arrow.up.forward.app")
+                        }
+                        .foregroundColor(.primary)
                     }
                 }
                 Section() {
