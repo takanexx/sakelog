@@ -24,10 +24,10 @@ struct SettingView: View {
                     //                Label("プロフィール", systemImage: "person.circle")
                     //                    .foregroundColor(colorScheme == .dark ? .white : .black)
                     HStack{
-                        Label("プラン", systemImage: "star")
+                        Label("プラン", systemImage: "crown")
                             .foregroundColor(colorScheme == .dark ? .white : .black)
                         Spacer()
-                        Text("\(userManager.currentUser?.plan ?? "Free")")
+                        Text("\(userManager.getPlanText())")
                             .bold()
                     }
                     HStack {

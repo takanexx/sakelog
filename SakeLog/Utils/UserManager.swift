@@ -27,4 +27,15 @@ class UserManager: ObservableObject {
             currentUser = nil
         }
     }
+    
+    func getPlanText() -> String {
+        switch currentUser?.plan {
+        case "free":
+            return "フリー"
+        case "pro":
+            return "プロ"
+        default:
+            return "不明"
+        }
+    }
 }
