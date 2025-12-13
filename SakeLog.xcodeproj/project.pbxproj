@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (Required, ); }; };
+		3BB063142EECE44900447AAA /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB063132EECE44900447AAA /* GoogleMobileAds */; };
 		3BCC3CE12EAC5F1700BA64C7 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -29,9 +30,22 @@
 		3BA9C2C62E929D070069E1B4 /* SakeLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SakeLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3BB0634E2EECEA6400447AAA /* Exceptions for "SakeLog" folder in "SakeLog" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3BA9C2C52E929D070069E1B4 /* SakeLog */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3BA9C2C82E929D070069E1B4 /* SakeLog */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3BB0634E2EECEA6400447AAA /* Exceptions for "SakeLog" folder in "SakeLog" target */,
+			);
 			path = SakeLog;
 			sourceTree = "<group>";
 		};
@@ -42,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BB063142EECE44900447AAA /* GoogleMobileAds in Frameworks */,
 				3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,6 +102,7 @@
 			name = SakeLog;
 			packageProductDependencies = (
 				3B8839862EABA8B500C2A671 /* RealmSwift */,
+				3BB063132EECE44900447AAA /* GoogleMobileAds */,
 			);
 			productName = SakeLog;
 			productReference = 3BA9C2C62E929D070069E1B4 /* SakeLog.app */;
@@ -118,6 +134,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				3BB063122EECE44900447AAA /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BA9C2C72E929D070069E1B4 /* Products */;
@@ -281,6 +298,7 @@
 				DEVELOPMENT_TEAM = KAA5N92PL6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SakeLog/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -314,6 +332,7 @@
 				DEVELOPMENT_TEAM = KAA5N92PL6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SakeLog/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -369,6 +388,14 @@
 				kind = branch;
 			};
 		};
+		3BB063122EECE44900447AAA /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.14.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -376,6 +403,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		3BB063132EECE44900447AAA /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3BB063122EECE44900447AAA /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

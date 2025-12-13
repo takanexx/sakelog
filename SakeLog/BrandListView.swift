@@ -25,34 +25,41 @@ struct BrandListView: View {
     
     var body: some View {
         NavigationStack {
-            List(filteredBrands) { brand in
-                Button(action: {
-                    selectedBrand = brand
-                    // 軽い振動
-                    let generator = UIImpactFeedbackGenerator(style: .light)
-                    generator.impactOccurred()
-                }) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(brand.name)
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                            if let brewery = brand.brewery {
-                                Text("酒蔵: \(brewery.name)")
+            List {
+                ForEach(Array(filteredBrands.enumerated()), id: \.element.id) { index, brand in
+                    // 7件ごとに広告を表示
+                    if index % 7 == 0 && index != 0 {
+                        AdmobBannerView()
+                            .frame(width: .infinity, height: 50)
+                    }
+                    Button(action: {
+                        selectedBrand = brand
+                        // 軽い振動
+                        let generator = UIImpactFeedbackGenerator(style: .light)
+                        generator.impactOccurred()
+                    }) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(brand.name)
+                                    .font(.headline)
+                                    .foregroundColor(.primary)
+                                if let brewery = brand.brewery {
+                                    Text("酒蔵: \(brewery.name)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            Spacer()
+                            if let area = brand.brewery?.area {
+                                Text(area.name)
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                             }
                         }
-                        Spacer()
-                        if let area = brand.brewery?.area {
-                            Text(area.name)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        }
+                        
                     }
-                    
+                    .padding(.vertical, 4)
                 }
-                .padding(.vertical, 4)
             }
             .navigationTitle("ブランド一覧")
             .searchable(text: $searchText, prompt: "ブランド名を検索")
