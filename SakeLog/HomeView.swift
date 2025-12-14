@@ -98,6 +98,7 @@ struct HomeView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
+                    .padding(.vertical, 20)
 
                     // 今月の記録
                     VStack(alignment: .leading, spacing: 10) {
@@ -154,10 +155,11 @@ struct HomeView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
                         }
-                        .padding(.vertical, 2)
+                        .padding(.vertical, 5)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
+                    .padding(.vertical, 20)
                 }
             }
             .navigationBarHidden(true)

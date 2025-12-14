@@ -10,6 +10,7 @@ import SwiftUI
 struct BrandListView: View {
     @Binding var selectedBrand: Brand?
     @State private var searchText = ""
+    @State private var isShowBanner: Bool = false
     private let allBrands = Brand.loadFromJSON()
     
     private var filteredBrands: [Brand] {
@@ -63,6 +64,12 @@ struct BrandListView: View {
             }
             .navigationTitle("ブランド一覧")
             .searchable(text: $searchText, prompt: "ブランド名を検索")
+        }
+        .onAppear {
+            // NOTE: 少し遅らせないと広告が表示されない
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                isShowBanner = true
+            }
         }
     }
 }
