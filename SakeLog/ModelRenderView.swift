@@ -47,7 +47,7 @@ struct ModelRenderView: UIViewRepresentable {
 
     private func loadScene() -> SCNScene? {
         // GLBファイルを探す
-        guard let url = Bundle.main.url(forResource: "temp", withExtension: "usdc") else {
+        guard let url = Bundle.main.url(forResource: "template", withExtension: "usdc") else {
             print("❌ model not found in bundle")
             return nil
         }
@@ -159,6 +159,30 @@ struct ModelRenderView: UIViewRepresentable {
             view.defaultCameraController.target = SCNVector3Zero
         }
 
+    }
+}
+
+extension UIImage {
+
+    /// 最大辺を maxSize に収めてアスペクト比維持で縮小
+    func resized(maxSize: CGFloat) -> UIImage {
+        let maxSide = max(size.width, size.height)
+
+        // 縮小不要
+        if maxSide <= maxSize {
+            return self
+        }
+
+        let scale = maxSize / maxSide
+        let newSize = CGSize(
+            width: size.width * scale,
+            height: size.height * scale
+        )
+
+        let renderer = UIGraphicsImageRenderer(size: newSize)
+        return renderer.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: newSize))
+        }
     }
 }
 
