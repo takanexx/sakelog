@@ -19,6 +19,8 @@ struct AddBrandSheetView: View {
     @State private var showPhotoPicker = false
     @State private var showCamera = false
     @State private var selectedImage: UIImage?
+    @State private var croppedImage: UIImage?
+    @State private var showCropView = false
     
     let types = ["純米", "純米吟醸", "純米大吟醸", "特別純米", "生酒", "吟醸", "大吟醸", "その他"]
     // レイアウト
@@ -154,19 +156,7 @@ struct AddBrandSheetView: View {
                                         )
                                 )
                             }
-                            .confirmationDialog("画像を選択", isPresented: $showChoiceDialog) {
-                                Button("カメラで撮影") { showCamera = true }
-                                Button("ライブラリから選択") { showPhotoPicker = true }
-                                Button("キャンセル", role: .cancel) {}
-                            }
-                            // ライブラリ選択
-                            .sheet(isPresented: $showPhotoPicker) {
-                                PhotoPicker(image: $selectedImage)
-                            }
-                            // カメラ撮影
-                            .fullScreenCover(isPresented: $showCamera) {
-                                CameraPicker(image: $selectedImage)
-                            }
+
                         }
                         .padding(.bottom, 30)
                     }
@@ -231,6 +221,39 @@ struct AddBrandSheetView: View {
                 .padding(20)
             }
             .padding(.top, 15)
+            .confirmationDialog("画像を選択", isPresented: $showChoiceDialog) {
+                Button("カメラで撮影") { showCamera = true }
+                Button("ライブラリから選択") { showPhotoPicker = true }
+                Button("キャンセル", role: .cancel) {}
+            }
+            // ライブラリ選択
+            .sheet(isPresented: $showPhotoPicker) {
+                PhotoPicker(image: $selectedImage)
+            }
+            // カメラ撮影
+            .fullScreenCover(isPresented: $showCamera) {
+                CameraPicker(image: $selectedImage)
+            }
+            .onChange(of: selectedImage) {
+                if selectedImage != nil {
+                    showCropView = true
+                }
+            }
+            .fullScreenCover(isPresented: $showCropView) {
+                if let image = selectedImage {
+                    CropImageView(
+                        image: image,
+                        onComplete: { cropped in
+                            self.croppedImage = cropped   // ← 保存用
+                            self.selectedImage = cropped  // ← そのまま使うなら上書き
+                            showCropView = false
+                        },
+                        onCancel: {
+                            showCropView = false
+                        }
+                    )
+                }
+            }
         } else {
             BrandListView(selectedBrand: $selectedBrand)
         }
