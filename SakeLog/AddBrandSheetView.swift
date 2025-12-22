@@ -109,7 +109,7 @@ struct AddBrandSheetView: View {
                     Text("Label Image")
                         .font(.headline)
                         .padding(.bottom, 5)
-                    if let image = selectedImage {
+                    if let image = croppedImage ?? selectedImage {
                         ZStack (alignment: .topTrailing) {
                             Image(uiImage: image)
                                 .resizable()
@@ -122,7 +122,9 @@ struct AddBrandSheetView: View {
                                 )
                                 .padding(.bottom, 30)
                             Button(action: {
-                                selectedImage = nil // 画像をクリア
+                                // 画像をクリア
+                                croppedImage = nil
+                                selectedImage = nil
                             }) {
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.system(size: 28))
@@ -235,9 +237,9 @@ struct AddBrandSheetView: View {
                 CameraPicker(image: $selectedImage)
             }
             .onChange(of: selectedImage) {
-                if selectedImage != nil {
-                    showCropView = true
-                }
+                guard let _ = selectedImage else { return }
+                croppedImage = nil
+                showCropView = true
             }
             .fullScreenCover(isPresented: $showCropView) {
                 if let image = selectedImage {
@@ -245,10 +247,10 @@ struct AddBrandSheetView: View {
                         image: image,
                         onComplete: { cropped in
                             self.croppedImage = cropped   // ← 保存用
-                            self.selectedImage = cropped  // ← そのまま使うなら上書き
                             showCropView = false
                         },
                         onCancel: {
+                            self.selectedImage = nil
                             showCropView = false
                         }
                     )

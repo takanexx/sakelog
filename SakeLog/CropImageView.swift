@@ -10,30 +10,32 @@ struct CropImageView: View {
     let image: UIImage
     let onComplete: (UIImage) -> Void
     let onCancel: () -> Void
-
     let cropSize: CGFloat = 300
-
-    @State private var scale: CGFloat = 1
-    @State private var lastScale: CGFloat = 1
+    
+    @State private var scale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
-    @State private var lastOffset: CGSize = .zero
+    @State private var gestureScale: CGFloat = 1.0
+    @State private var gestureOffset: CGSize = .zero
 
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-
             VStack {
                 Spacer()
-
                 ZStack {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFill()
-                        .scaleEffect(scale)
-                        .offset(offset)
+                        .scaleEffect(scale * gestureScale)
+                        .offset(
+                            x: offset.width + gestureOffset.width,
+                            y: offset.height + gestureOffset.height
+                        )
                         .frame(width: cropSize, height: cropSize)
                         .clipped()
-                        .gesture(dragGesture.simultaneously(with: magnificationGesture))
+                        .gesture(dragGesture)
+                        .gesture(magnificationGesture)
+
 
                     Rectangle()
                         .stroke(Color.white, lineWidth: 2)
@@ -55,7 +57,6 @@ struct CropImageView: View {
                             scale: scale,
                             offset: offset,
                             cropSize: cropSize,
-                            viewSize: CGSize(width: cropSize, height: cropSize)
                         )
                         onComplete(cropped)
                     }
@@ -69,23 +70,23 @@ struct CropImageView: View {
     var dragGesture: some Gesture {
         DragGesture()
             .onChanged { value in
-                offset = CGSize(
-                    width: lastOffset.width + value.translation.width,
-                    height: lastOffset.height + value.translation.height
-                )
+                gestureOffset = value.translation
             }
-            .onEnded { _ in
-                lastOffset = offset
+            .onEnded { value in
+                offset.width += value.translation.width
+                offset.height += value.translation.height
+                gestureOffset = .zero
             }
     }
 
     var magnificationGesture: some Gesture {
         MagnificationGesture()
             .onChanged { value in
-                scale = lastScale * value
+                gestureScale = value
             }
-            .onEnded { _ in
-                lastScale = scale
+            .onEnded { value in
+                scale = max(scale * value, 1.0) // 最小倍率
+                gestureScale = 1.0
             }
     }
 }
@@ -96,23 +97,52 @@ extension UIImage {
     func cropped(
         scale: CGFloat,
         offset: CGSize,
-        cropSize: CGFloat,
-        viewSize: CGSize
+        cropSize: CGFloat
     ) -> UIImage {
 
-        let imageSize = size
+        guard let cgImage else { return self }
 
-        let scaleRatio = imageSize.width / viewSize.width
+        let imageSize = CGSize(
+            width: cgImage.width,
+            height: cgImage.height
+        )
 
-        let x = (-offset.width * scaleRatio) / scale
-        let y = (-offset.height * scaleRatio) / scale
-        let length = cropSize * scaleRatio / scale
+        // scaledToFill の基準スケール
+        let baseScale = max(
+            cropSize / imageSize.width,
+            cropSize / imageSize.height
+        )
 
-        let cropRect = CGRect(x: x, y: y, width: length, height: length)
+        let totalScale = baseScale * scale
 
-        guard let cgImage = cgImage?.cropping(to: cropRect) else {
+        // 表示されている画像サイズ
+        let displayedSize = CGSize(
+            width: imageSize.width * totalScale,
+            height: imageSize.height * totalScale
+        )
+
+        // Crop枠左上の「表示座標」
+        let cropOriginX =
+            (displayedSize.width - cropSize) / 2
+            - offset.width
+
+        let cropOriginY =
+            (displayedSize.height - cropSize) / 2
+            - offset.height
+
+        // 画像座標へ変換
+        let rect = CGRect(
+            x: cropOriginX / totalScale,
+            y: cropOriginY / totalScale,
+            width: cropSize / totalScale,
+            height: cropSize / totalScale
+        )
+
+        guard let croppedCG = cgImage.cropping(to: rect) else {
             return self
         }
-        return UIImage(cgImage: cgImage)
+
+        return UIImage(cgImage: croppedCG)
     }
 }
+
