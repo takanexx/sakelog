@@ -181,7 +181,12 @@ struct AddBrandSheetView: View {
                 Button(action: {
                     // 保存処理
                     var labelFileName: String? = nil
-                    labelFileName = saveImageToDocuments(image: selectedImage ?? UIImage())
+                    // クロップ画像があればそちらを保存、なければ選択画像を保存
+                    if let cropped = croppedImage {
+                        labelFileName = saveImageToDocuments(image: cropped)
+                    } else if let selected = selectedImage {
+                        labelFileName = saveImageToDocuments(image: selected)
+                    }
                     // ここで selectedBrand、selectedType、selectedImage、memoText を使って保存処理を行う
                     let newSakeLog = SakeLog(
                         userId: ObjectId(),

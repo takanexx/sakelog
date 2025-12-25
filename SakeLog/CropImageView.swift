@@ -10,8 +10,9 @@ struct CropImageView: View {
     let image: UIImage
     let onComplete: (UIImage) -> Void
     let onCancel: () -> Void
-    let cropSize: CGFloat = 300
-    
+    let cropSizeW: CGFloat = 280
+    let cropSizeH: CGFloat = 200
+
     @State private var scale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
     @State private var gestureScale: CGFloat = 1.0
@@ -31,7 +32,7 @@ struct CropImageView: View {
                             x: offset.width + gestureOffset.width,
                             y: offset.height + gestureOffset.height
                         )
-                        .frame(width: cropSize, height: cropSize)
+                        .frame(width: cropSizeW, height: cropSizeH)
                         .clipped()
                         .gesture(dragGesture)
                         .gesture(magnificationGesture)
@@ -39,7 +40,7 @@ struct CropImageView: View {
 
                     Rectangle()
                         .stroke(Color.white, lineWidth: 2)
-                        .frame(width: cropSize, height: cropSize)
+                        .frame(width: cropSizeW, height: cropSizeH)
                 }
 
                 Spacer()
@@ -56,7 +57,8 @@ struct CropImageView: View {
                         let cropped = image.cropped(
                             scale: scale,
                             offset: offset,
-                            cropSize: cropSize,
+                            cropSizeW: cropSizeW,
+                            cropSizeH: cropSizeH,
                         )
                         onComplete(cropped)
                     }
@@ -97,7 +99,8 @@ extension UIImage {
     func cropped(
         scale: CGFloat,
         offset: CGSize,
-        cropSize: CGFloat
+        cropSizeW: CGFloat,
+        cropSizeH: CGFloat
     ) -> UIImage {
 
         guard let cgImage else { return self }
@@ -109,8 +112,8 @@ extension UIImage {
 
         // scaledToFill の基準スケール
         let baseScale = max(
-            cropSize / imageSize.width,
-            cropSize / imageSize.height
+            cropSizeW / imageSize.width,
+            cropSizeH / imageSize.height
         )
 
         let totalScale = baseScale * scale
@@ -123,19 +126,19 @@ extension UIImage {
 
         // Crop枠左上の「表示座標」
         let cropOriginX =
-            (displayedSize.width - cropSize) / 2
+            (displayedSize.width - cropSizeW) / 2
             - offset.width
 
         let cropOriginY =
-            (displayedSize.height - cropSize) / 2
+            (displayedSize.height - cropSizeH) / 2
             - offset.height
 
         // 画像座標へ変換
         let rect = CGRect(
             x: cropOriginX / totalScale,
             y: cropOriginY / totalScale,
-            width: cropSize / totalScale,
-            height: cropSize / totalScale
+            width: cropSizeW / totalScale,
+            height: cropSizeH / totalScale
         )
 
         guard let croppedCG = cgImage.cropping(to: rect) else {
