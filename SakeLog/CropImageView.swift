@@ -96,6 +96,21 @@ struct CropImageView: View {
 
 // UIImage トリミング用 Extension
 extension UIImage {
+    // 画像の向きを正規化
+    func normalized() -> UIImage {
+        if imageOrientation == .up {
+            return self
+        }
+
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(in: CGRect(origin: .zero, size: size))
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return image ?? self
+    }
+    
+    // 画像をクロップ
     func cropped(
         scale: CGFloat,
         offset: CGSize,

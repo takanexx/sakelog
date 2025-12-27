@@ -249,7 +249,7 @@ struct AddBrandSheetView: View {
             .fullScreenCover(isPresented: $showCropView) {
                 if let image = selectedImage {
                     CropImageView(
-                        image: image,
+                        image: image.normalized(),
                         onComplete: { cropped in
                             self.croppedImage = cropped   // ← 保存用
                             showCropView = false
