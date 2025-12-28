@@ -14,6 +14,7 @@ struct SakeLogDetailView: View {
     @State private var brewery: Brewery? = nil  // 酒蔵
     @State private var area: Area? = nil  // 酒蔵の地域
     @State private var showAlert: Bool = false  // 削除確認アラート表示フラグ
+    @Environment(\.dismiss) private var dismiss
 
     
     var body: some View {
@@ -84,7 +85,6 @@ struct SakeLogDetailView: View {
                     Button(role: .destructive) {
                         // 確認のアラートを表示
                         showAlert = true
-
                     } label: {
                         Image(systemName: "trash")
                     }
@@ -92,11 +92,16 @@ struct SakeLogDetailView: View {
             }
             .alert("確認", isPresented: $showAlert) {
                 Button("削除", role: .destructive) {
-                    // 削除処理
-                    let realm = try! Realm()
-                    try! realm.write {
-                        realm.delete(sakeLog)
+                    dismiss()
+                    guard
+                        let realm = try? Realm(),
+                        let thawed = sakeLog.thaw()
+                    else { return }
+
+                    try? realm.write {
+                        realm.delete(thawed)
                     }
+
                     print("削除しました")
                 }
                 Button("キャンセル", role: .cancel) { }
