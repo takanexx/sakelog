@@ -13,6 +13,7 @@ struct SakeLogDetailView: View {
     @State private var brand: Brand? = nil  // 銘柄
     @State private var brewery: Brewery? = nil  // 酒蔵
     @State private var area: Area? = nil  // 酒蔵の地域
+    @State private var showAlert: Bool = false  // 削除確認アラート表示フラグ
 
     
     var body: some View {
@@ -77,6 +78,32 @@ struct SakeLogDetailView: View {
             }
             .navigationTitle("酒ログ詳細")
             .navigationBarTitleDisplayMode(.inline)
+            // 削除ボタン
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(role: .destructive) {
+                        // 確認のアラートを表示
+                        showAlert = true
+
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                }
+            }
+            .alert("確認", isPresented: $showAlert) {
+                Button("削除", role: .destructive) {
+                    // 削除処理
+                    let realm = try! Realm()
+                    try! realm.write {
+                        realm.delete(sakeLog)
+                    }
+                    print("削除しました")
+                }
+                Button("キャンセル", role: .cancel) { }
+            } message: {
+                Text("この酒ログを削除してもよろしいですか？")
+            }
+                    
         }
         .task {
             await loadBrand()
