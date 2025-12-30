@@ -79,15 +79,22 @@ struct SakeLogDetailView: View {
             }
             .navigationTitle("酒ログ詳細")
             .navigationBarTitleDisplayMode(.inline)
-            // 削除ボタン
+            // 編集・削除ボタン
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                Menu {
+                    Button {
+                        // 編集ボタン
+                    } label: {
+                        Label("編集", systemImage: "pencil")
+                    }
                     Button(role: .destructive) {
-                        // 確認のアラートを表示
+                        // 削除ボタン
                         showAlert = true
                     } label: {
-                        Image(systemName: "trash")
+                        Label("削除", systemImage: "trash")
                     }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
                 }
             }
             .alert("確認", isPresented: $showAlert) {
