@@ -13,7 +13,9 @@ struct SakeLogDetailView: View {
     @State private var brand: Brand? = nil  // 銘柄
     @State private var brewery: Brewery? = nil  // 酒蔵
     @State private var area: Area? = nil  // 酒蔵の地域
+    @State private var showEdit: Bool = false // 編集画面表示フラグ
     @State private var showAlert: Bool = false  // 削除確認アラート表示フラグ
+    @State private var selectedType: String? // 酒の種類
     @Environment(\.dismiss) private var dismiss
 
     
@@ -82,13 +84,14 @@ struct SakeLogDetailView: View {
             // 編集・削除ボタン
             .toolbar {
                 Menu {
+                    // 編集ボタン
                     Button {
-                        // 編集ボタン
+                        showEdit = true
                     } label: {
                         Label("編集", systemImage: "pencil")
                     }
+                    // 削除ボタン
                     Button(role: .destructive) {
-                        // 削除ボタン
                         showAlert = true
                     } label: {
                         Label("削除", systemImage: "trash")
@@ -115,16 +118,28 @@ struct SakeLogDetailView: View {
             } message: {
                 Text("この酒ログを削除してもよろしいですか？")
             }
-                    
+            // ブランドが選択から外れたら BrandListを表示
+            .navigationDestination(isPresented: $showEdit) {
+                if let _ = brand {
+                    // brand が存在 → 編集画面
+                    AddBrandSheetView(
+                        selectedBrand: $brand,
+                        selectedType: $selectedType
+                    )
+                } else {
+                    // brand が nil → ブランド選択
+                    BrandListView(selectedBrand: $brand)
+                }
+            }
         }
         .task {
             await loadBrand()
         }
     }
     
-    
     func loadBrand() async {
         self.brand = Brand.getBrandById(sakeLog.brandId ?? 0)
+        self.selectedType = sakeLog.kind
     }
 }
 
