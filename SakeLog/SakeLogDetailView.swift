@@ -122,7 +122,7 @@ struct SakeLogDetailView: View {
             .navigationDestination(isPresented: $showEdit) {
                 if let _ = brand {
                     // brand が存在 → 編集画面
-                    AddBrandSheetView(
+                    EditBrandSheetView(
                         selectedBrand: $brand,
                         selectedType: $selectedType
                     )

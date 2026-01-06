@@ -1,8 +1,8 @@
 //
-//  AddBrandSheetView.swift
+//  EditBrandSheetView.swift
 //  SakeLog
 //
-//  Created by Takane on 2025/10/18.
+//  Created by Takane on 2026/01/07.
 //
 
 import SwiftUI
@@ -10,7 +10,7 @@ import PhotosUI
 import UIKit
 import RealmSwift
 
-struct AddBrandSheetView: View {
+struct EditBrandSheetView: View {
     @Binding var selectedBrand: Brand?
     @Binding var selectedType: String?
     
@@ -268,105 +268,9 @@ struct AddBrandSheetView: View {
 }
 
 
-// MARK: - 画像保存のユーティリティ
-
-/// Documetntsフォルダのパスを取得
-func getDocumentsDirectory() -> URL {
-    FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-}
-
-/// UIImageをDocumentsフォルダに保存し、保存先のURLを返す
-func saveImageToDocuments(image: UIImage) -> String? {
-    let filename = UUID().uuidString + ".jpg"
-    let url = getDocumentsDirectory().appendingPathComponent(filename)
-    
-    // JPEGデータに変換して保存
-    if let data = image.jpegData(compressionQuality: 0.9) {
-        do {
-            try data.write(to: url)
-            print("Image saved to: \(url)")
-            return filename // ファイル名を返す
-        } catch {
-            print("Error saving image: \(error)")
-        }
-    }
-    return nil
-}
-
-/// 保存した画像を読み込む
-func loadImageFromDocuments(filename: String) -> UIImage? {
-    let url = getDocumentsDirectory().appendingPathComponent(filename)
-    return UIImage(contentsOfFile: url.path)
-}
-
-// MARK: - フォトライブラリ
-struct PhotoPicker: UIViewControllerRepresentable {
-    @Binding var image: UIImage?
-
-    func makeUIViewController(context: Context) -> PHPickerViewController {
-        var config = PHPickerConfiguration()
-        config.filter = .images
-        config.selectionLimit = 1
-        let picker = PHPickerViewController(configuration: config)
-        picker.delegate = context.coordinator
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, PHPickerViewControllerDelegate {
-        var parent: PhotoPicker
-        init(_ parent: PhotoPicker) { self.parent = parent }
-
-        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            picker.dismiss(animated: true)
-            guard let provider = results.first?.itemProvider,
-                  provider.canLoadObject(ofClass: UIImage.self) else { return }
-            provider.loadObject(ofClass: UIImage.self) { image, _ in
-                DispatchQueue.main.async {
-                    self.parent.image = image as? UIImage
-                }
-            }
-        }
-    }
-}
-
-// MARK: - カメラ撮影
-struct CameraPicker: UIViewControllerRepresentable {
-    @Binding var image: UIImage?
-
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.sourceType = .camera
-        picker.delegate = context.coordinator
-        return picker
-    }
-
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        var parent: CameraPicker
-        init(_ parent: CameraPicker) { self.parent = parent }
-
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let image = info[.originalImage] as? UIImage {
-                parent.image = image
-            }
-            picker.dismiss(animated: true)
-        }
-    }
-}
 
 
 
 #Preview {
-    AddBrandSheetView(selectedBrand: .constant(nil), selectedType: .constant(nil))
+    EditBrandSheetView(selectedBrand: .constant(nil), selectedType: .constant(nil))
 }
