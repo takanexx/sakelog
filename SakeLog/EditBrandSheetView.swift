@@ -198,9 +198,10 @@ struct EditBrandSheetView: View {
                     )
                         
                     let realm = try! Realm()
-                    try! realm.write {
-                        realm.add(newSakeLog)
-                    }
+                    // 更新処理
+//                    try! realm.write {
+//                        realm.add(newSakeLog)
+//                    }
                     
                     // 保存後にシートを閉じる
                     selectedBrand = nil
@@ -266,10 +267,6 @@ struct EditBrandSheetView: View {
         }
     }
 }
-
-
-
-
 
 #Preview {
     EditBrandSheetView(selectedBrand: .constant(nil), selectedType: .constant(nil))
