@@ -170,7 +170,13 @@ struct HomeView: View {
     }
     
     func loadBrand() async {
-        self.brand = Brand.getBrandById(recentSakeLogs[0].brandId ?? 0)
+        // 直近のSakeLogからブランド情報を取得
+        guard let log = recentSakeLogs.first,
+              let brandId = log.brandId else {
+            return
+        }
+
+        self.brand = Brand.getBrandById(brandId)
     }
 }
 

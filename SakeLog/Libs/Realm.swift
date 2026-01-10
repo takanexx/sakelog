@@ -8,6 +8,16 @@
 import Foundation
 import RealmSwift
 
+// MARK: - Realm Setup
+// 共通のRealm設定を行う
+func setupRealm() {
+    let config = Realm.Configuration(
+        schemaVersion: 1,
+        deleteRealmIfMigrationNeeded: true // 本番ビルド時にfalseにすること
+    )
+    Realm.Configuration.defaultConfiguration = config
+}
+
 // MARK: - Realm Models
 
 // User Model
@@ -40,10 +50,10 @@ class SakeLog: Object, Identifiable {
     @Persisted var kind: String
     @Persisted var labelUrl: String
     @Persisted var rating: Int?
-    @Persisted var notes: String?
+    @Persisted var notes: String
     @Persisted var date: Date = Date()
     
-    convenience init(userId: ObjectId, brandId: Int?, kind: String, labelUrl: String, rating: Int?, notes: String?) {
+    convenience init(userId: ObjectId, brandId: Int?, kind: String, labelUrl: String, rating: Int?, notes: String) {
         self.init()
         self.userId = userId
         self.brandId = brandId
