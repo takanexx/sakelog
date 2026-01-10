@@ -6,15 +6,14 @@
 //
 
 import SwiftUI
-import PhotosUI
-import UIKit
 import RealmSwift
 
 struct EditBrandSheetView: View {
+    @ObservedRealmObject var sakeLog: SakeLog
     @Binding var selectedBrand: Brand?
     @Binding var selectedType: String?
     
-    @State private var memoText: String = ""
+//    @State private var memoText: String = ""
     @State private var showChoiceDialog = false
     @State private var showPhotoPicker = false
     @State private var showCamera = false
@@ -27,6 +26,14 @@ struct EditBrandSheetView: View {
     let typeColumns = [
         GridItem(.adaptive(minimum: 100), spacing: 10) // 最小幅を指定
     ]
+    
+    func setType() {
+        let thawedSakeLog = sakeLog.thaw()!
+        let realm = try! Realm()
+        try! realm.write {
+            thawedSakeLog.kind = selectedType ?? ""
+        }
+    }
     
     var body: some View {
         // ブランドが選択されている場合は詳細表示、そうでなければリスト表示
@@ -77,6 +84,7 @@ struct EditBrandSheetView: View {
                                     let generator = UIImpactFeedbackGenerator(style: .light)
                                     generator.impactOccurred()
                                 }
+                                setType()
                             }) {
                                 Text(type)
                                     .font(.subheadline)
@@ -167,7 +175,7 @@ struct EditBrandSheetView: View {
                     Text("Memo")
                         .font(.headline)
                         .padding(.bottom, 5)
-                    TextEditor(text: $memoText)
+                    TextEditor(text: $sakeLog.notes)
                         .frame(height: 150)
                         .padding(8)
                         .background(
@@ -177,56 +185,6 @@ struct EditBrandSheetView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(25)
-                
-                Button(action: {
-                    // 保存処理
-                    var labelFileName: String? = nil
-                    // クロップ画像があればそちらを保存、なければ選択画像を保存
-                    if let cropped = croppedImage {
-                        labelFileName = saveImageToDocuments(image: cropped)
-                    } else if let selected = selectedImage {
-                        labelFileName = saveImageToDocuments(image: selected)
-                    }
-                    // ここで selectedBrand、selectedType、selectedImage、memoText を使って保存処理を行う
-                    let newSakeLog = SakeLog(
-                        userId: ObjectId(),
-                        brandId: selectedBrand?.id,
-                        kind: selectedType ?? "その他",
-                        labelUrl: labelFileName ?? "",
-                        rating: 0,
-                        notes: memoText
-                    )
-                        
-                    let realm = try! Realm()
-                    // 更新処理
-//                    try! realm.write {
-//                        realm.add(newSakeLog)
-//                    }
-                    
-                    // 保存後にシートを閉じる
-                    selectedBrand = nil
-                    selectedType = nil
-                    selectedImage = nil
-                    memoText = ""
-                }) {
-                    Text("保存")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .foregroundColor(.primary)
-                }
-                .font(.headline)
-                .frame(maxWidth: .infinity)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                    // 枠線はsecondayカラーで点線
-                        .strokeBorder(Color.primary, style: StrokeStyle(lineWidth: 1.5))
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(.clear)
-                        )
-                )
-                .padding(20)
             }
             .padding(.top, 15)
             .confirmationDialog("画像を選択", isPresented: $showChoiceDialog) {
@@ -269,5 +227,42 @@ struct EditBrandSheetView: View {
 }
 
 #Preview {
-    EditBrandSheetView(selectedBrand: .constant(nil), selectedType: .constant(nil))
+    let config = Realm.Configuration(inMemoryIdentifier: "preview")
+    let realm = try! Realm(configuration: config)
+
+    // Brewery
+    let brewery = Brewery(
+        id: 1,
+        name: "泉酒造",
+        areaId: 13,
+        area: nil
+    )
+    // Brand
+    let brand = Brand(
+        id: 101,
+        name: "泉",
+        breweryId: brewery.id,
+        brewery: brewery
+    )
+
+    // SakeLog
+    let previewSakeLog = SakeLog()
+    previewSakeLog.userId = ObjectId.generate()
+    previewSakeLog.brandId = 101
+    previewSakeLog.kind = "純米吟醸"
+    previewSakeLog.labelUrl = "izumi"
+    previewSakeLog.rating = 4
+    previewSakeLog.notes = "華やかでフルーティーな香り。"
+
+    try! realm.write {
+        realm.add(previewSakeLog)
+    }
+
+    return EditBrandSheetView(
+        sakeLog: previewSakeLog,
+        selectedBrand: .constant(brand),
+        selectedType: .constant(nil)
+    )
+    .environment(\.realm, realm)
 }
+

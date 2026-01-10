@@ -62,14 +62,12 @@ struct SakeLogDetailView: View {
                     }
 
                     // メモ
-                    if let notes = sakeLog.notes {
-                        Text("メモ:")
-                            .font(.headline)
-                            .padding(.top, 4)
-                        Text(notes)
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                    }
+                    Text("メモ:")
+                        .font(.headline)
+                        .padding(.top, 4)
+                    Text(sakeLog.notes)
+                        .font(.body)
+                        .foregroundColor(.secondary)
 
                     // 日付
                     Text("登録日: \(sakeLog.date.formatted(date: .long, time: .omitted))")
@@ -85,9 +83,11 @@ struct SakeLogDetailView: View {
             .toolbar {
                 Menu {
                     // 編集ボタン
-                    Button {
-                        showEdit = true
-                    } label: {
+                    NavigationLink(destination: EditBrandSheetView(
+                        sakeLog: sakeLog,
+                        selectedBrand: $brand,
+                        selectedType: $selectedType
+                    )) {
                         Label("編集", systemImage: "pencil")
                     }
                     // 削除ボタン
@@ -117,19 +117,6 @@ struct SakeLogDetailView: View {
                 Button("キャンセル", role: .cancel) { }
             } message: {
                 Text("この酒ログを削除してもよろしいですか？")
-            }
-            // ブランドが選択から外れたら BrandListを表示
-            .navigationDestination(isPresented: $showEdit) {
-                if let _ = brand {
-                    // brand が存在 → 編集画面
-                    EditBrandSheetView(
-                        selectedBrand: $brand,
-                        selectedType: $selectedType
-                    )
-                } else {
-                    // brand が nil → ブランド選択
-                    BrandListView(selectedBrand: $brand)
-                }
             }
         }
         .task {
