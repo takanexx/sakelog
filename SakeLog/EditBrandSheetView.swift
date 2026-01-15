@@ -35,6 +35,19 @@ struct EditBrandSheetView: View {
         }
     }
     
+    // ラベル画像を読み込む
+    func loadLabelImage() async {
+        self.croppedImage = loadImageFromDocuments(filename: sakeLog.labelUrl)
+    }
+    
+    func setLabelUrl(url: String) {
+        let thawedSakeLog = sakeLog.thaw()!
+        let realm = try! Realm()
+        try! realm.write {
+            thawedSakeLog.labelUrl = url
+        }
+    }
+    
     var body: some View {
         // ブランドが選択されている場合は詳細表示、そうでなければリスト表示
         if selectedBrand != nil {
@@ -211,6 +224,14 @@ struct EditBrandSheetView: View {
                         image: image.normalized(),
                         onComplete: { cropped in
                             self.croppedImage = cropped   // ← 保存用
+                            // 保存処理
+                            var labelFileName: String? = nil
+                            // クロップ画像があればそちらを保存、なければ選択画像を保存
+                            labelFileName = saveImageToDocuments(image: cropped)
+                            if let fileName = labelFileName {
+                                setLabelUrl(url: fileName)
+                            }
+                            // クロップビューを閉じる
                             showCropView = false
                         },
                         onCancel: {
@@ -219,6 +240,10 @@ struct EditBrandSheetView: View {
                         }
                     )
                 }
+            }
+            // 画面が描画されたら画像を読み込む
+            .task {
+                await loadLabelImage()
             }
         } else {
             BrandListView(selectedBrand: $selectedBrand)
