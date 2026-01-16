@@ -84,3 +84,11 @@ extension Brand {
         return brands.first(where: { $0.id == id })
     }
 }
+
+// Equatable準拠
+extension Brand: Equatable {
+    /// Equatableプロトコルの実装
+    static func == (lhs: Brand, rhs: Brand) -> Bool {
+        lhs.id == rhs.id
+    }
+}

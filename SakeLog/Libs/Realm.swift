@@ -13,7 +13,7 @@ import RealmSwift
 func setupRealm() {
     let config = Realm.Configuration(
         schemaVersion: 1,
-        deleteRealmIfMigrationNeeded: true // 本番ビルド時にfalseにすること
+        deleteRealmIfMigrationNeeded: false // 本番ビルド時にfalseにすること
     )
     Realm.Configuration.defaultConfiguration = config
 }
