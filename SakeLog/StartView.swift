@@ -56,19 +56,17 @@ struct StartView: View {
 
     var body: some View {
         NavigationStack {
-            
-            VStack {
+            ScrollView {
                 Text("Welcome to SakeLog")
                     .font(.largeTitle)
-                    .padding()
+                    .padding(.top, 40)
                 Text("Your personal sake tasting journal.")
                     .font(.subheadline)
-                    .padding()
+                    .padding(.top, 2)
                 CarouselView(currentIndex: $currentIndex)
                 
                 Spacer()
                 
-                Text("\(currentIndex)")
                 Button(action: {
                     // Action to get started
                     let user = User(
@@ -83,7 +81,7 @@ struct StartView: View {
                     // ContentView へ移動する処理をここに追加
                     navigateToMain = true
                 }) {
-                    Text("Get Started")
+                    Text("SakeLogを始める")
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
