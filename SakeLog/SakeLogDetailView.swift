@@ -138,7 +138,7 @@ struct SakeLogDetailView: View {
     previewSakeLog.userId = ObjectId.generate()
     previewSakeLog.brandId = 101
     previewSakeLog.kind = "純米吟醸"
-    previewSakeLog.labelUrl = "izumi"
+    previewSakeLog.labelUrl = "logo"
     previewSakeLog.rating = 4
     previewSakeLog.notes = "華やかでフルーティーな香り。"
 

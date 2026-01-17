@@ -187,6 +187,6 @@ extension UIImage {
 }
 
 #Preview {
-    ModelRenderView(labelImageName: "izumi", allowsCameraControl: true)
+    ModelRenderView(labelImageName: "logo", allowsCameraControl: true)
 }
 

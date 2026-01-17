@@ -31,7 +31,7 @@ struct HomeView: View {
                         
                         ZStack(alignment: .bottomLeading) {
                             if recentSakeLogs.isEmpty {
-                                ModelRenderView(labelImageName: "izumi", allowsCameraControl: false)
+                                ModelRenderView(labelImageName: "logo", allowsCameraControl: false)
                                     .frame(height: height)
                                     .clipped()
                             } else {
