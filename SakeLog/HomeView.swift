@@ -42,7 +42,7 @@ struct HomeView: View {
 
                             VStack(alignment: .leading, spacing: 6) {
                                 if (recentSakeLogs.isEmpty) {
-                                    Text("Wlecome to SakeLog")
+                                    Text("Welcome to SakeLog")
                                         .font(.largeTitle)
                                 } else {
                                     Text("最近飲んだ日本酒")

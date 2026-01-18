@@ -42,7 +42,14 @@
 
     },
     "Brand Name" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "銘柄"
+          }
+        }
+      }
     },
     "Cabinet" : {
 
@@ -54,82 +61,236 @@
       "extractionState" : "manual"
     },
     "Kind" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "種類"
+          }
+        }
+      }
     },
     "Label Image" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ラベル"
+          }
+        }
+      }
     },
     "Memo" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メモ"
+          }
+        }
+      }
     },
     "SakeLogに搭載されている日本酒の銘柄データは、オープンデータとして公開されている「さけのわデータ」を基に作成されています。このデータベースには、多数の日本酒の情報が含まれており、SakeLogではその一部を利用しています。" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The sake brand data included in SakeLog is created based on \"Sakenowa Data,\" which is released as open data. This database contains a large amount of information on Japanese sake, and SakeLog utilizes a portion of it."
+          }
+        }
+      }
     },
     "SakeLogを始める" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start SakeLog"
+          }
+        }
+      }
     },
     "Select Label Image" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像を選択"
+          }
+        }
+      }
     },
     "Setting" : {
 
     },
     "Welcome to SakeLog" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SakeLog"
+          }
+        }
+      }
     },
     "Wlecome to SakeLog" : {
 
     },
     "Your personal sake tasting journal." : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自分だけの日本酒記録"
+          }
+        }
+      }
     },
     "アカウントを削除" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Account"
+          }
+        }
+      }
     },
     "カメラで撮影" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take a photo"
+          }
+        }
+      }
     },
     "キャンセル" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
     },
     "この酒ログを削除してもよろしいですか？" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to delete this SakeLog?"
+          }
+        }
+      }
     },
     "さけのわデータ" : {
 
     },
     "その他%lld件" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "others %lld"
+          }
+        }
+      }
     },
     "データを全て削除してもよろしいですか？" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to delete all data?"
+          }
+        }
+      }
     },
     "テーマ" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "theme"
+          }
+        }
+      }
     },
     "バージョン" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "version"
+          }
+        }
+      }
     },
     "はずす" : {
 
     },
     "プライバシーポリシー" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy Policy"
+          }
+        }
+      }
     },
     "プラン" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "plan"
+          }
+        }
+      }
     },
     "ブランド一覧" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brand list"
+          }
+        }
+      }
     },
     "ブランド名を検索" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "search brand"
+          }
+        }
+      }
     },
     "メモ:" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "memo"
+          }
+        }
+      }
     },
     "ライブラリから選択" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "select library"
+          }
+        }
+      }
     },
     "今日の日本酒豆知識" : {
 
@@ -159,7 +320,14 @@
 
     },
     "画像を選択" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "select image"
+          }
+        }
+      }
     },
     "登録日: %@" : {
 
