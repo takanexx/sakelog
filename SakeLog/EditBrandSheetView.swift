@@ -58,9 +58,6 @@ struct EditBrandSheetView: View {
                         HStack {
                             Text("Brand Name")
                                 .font(.headline)
-                            Button("はずす") {
-                                selectedBrand = nil
-                            }
                         }
                         .padding(.bottom, 3)
                         HStack (alignment: .center, spacing: 12) {

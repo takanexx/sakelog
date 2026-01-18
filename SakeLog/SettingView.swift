@@ -11,6 +11,8 @@ import SceneKit
 import RealmSwift
 
 struct SettingView: View {
+    @Environment(\.dismiss) private var dismiss
+
     @Environment(\.colorScheme) var colorScheme
     @StateObject private var userManager = UserManager()
     @State private var showAlert = false
@@ -72,10 +74,18 @@ struct SettingView: View {
                 }
                 .alert("確認", isPresented: $showAlert) {
                     Button("削除", role: .destructive) {
-                        try! Realm().write {
-                            try! Realm().deleteAll()
+                        do {
+                            let realm = try Realm()
+                            try realm.write {
+                                realm.deleteAll()
+                            }
+                            // StartViewに戻る
+                            userManager.currentUser = nil
+                            dismiss()
+                            print("削除しました")
+                        } catch {
+                            print("削除に失敗しました: \(error.localizedDescription)")
                         }
-                        print("削除しました")
                     }
                     Button("キャンセル", role: .cancel) { }
                 } message: {
