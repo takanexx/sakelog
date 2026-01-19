@@ -293,31 +293,94 @@
       }
     },
     "今日の日本酒豆知識" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today's Sake Trivia"
+          }
+        }
+      }
     },
     "今月の記録" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Month's log"
+          }
+        }
+      }
     },
     "今月の記録はまだありません" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no logs for this month yet."
+          }
+        }
+      }
     },
     "保存" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "save"
+          }
+        }
+      }
     },
     "最近飲んだ日本酒" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recently"
+          }
+        }
+      }
     },
     "別の豆知識を見る" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See another trivia"
+          }
+        }
+      }
     },
     "利用規約" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of Use"
+          }
+        }
+      }
     },
     "削除" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "delete"
+          }
+        }
+      }
     },
     "完了" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "done"
+          }
+        }
+      }
     },
     "画像を選択" : {
       "localizations" : {
@@ -330,28 +393,84 @@
       }
     },
     "登録日: %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "date: %@"
+          }
+        }
+      }
     },
     "確認" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "confirm"
+          }
+        }
+      }
     },
     "編集" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "edit"
+          }
+        }
+      }
     },
     "評価: %lld/5" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "start: %lld/5"
+          }
+        }
+      }
     },
     "酒ログ詳細" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "details"
+          }
+        }
+      }
     },
     "酒蔵: %@" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "brewery: %@"
+          }
+        }
+      }
     },
     "銘柄" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "brand"
+          }
+        }
+      }
     },
     "銘柄データについて" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "about brand data"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
