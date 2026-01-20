@@ -28,6 +28,16 @@ class UserManager: ObservableObject {
         }
     }
     
+    /// ゲストユーザーを作成する
+    func createGuestUser() {
+        let guestUser = User(username: "ゲスト", email: "guest@example.com")
+        let realm = try! Realm()
+        try! realm.write {
+            realm.add(guestUser)
+        }
+        currentUser = guestUser
+    }
+    
     func getPlanText() -> String {
         switch currentUser?.plan {
         case "free":

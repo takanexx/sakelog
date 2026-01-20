@@ -51,54 +51,39 @@ struct CarouselView: View {
 
 
 struct StartView: View {
+    @EnvironmentObject private var userManager: UserManager
     @State private var currentIndex = 1  // 現在のページ
-    @State private var navigateToMain = false   // 遷移状態を管理
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                Text("Welcome to SakeLog")
-                    .font(.largeTitle)
-                    .padding(.top, 40)
-                Text("Your personal sake tasting journal.")
-                    .font(.subheadline)
-                    .padding(.top, 2)
-                CarouselView(currentIndex: $currentIndex)
-                
-                Spacer()
-                
-                Button(action: {
-                    // Action to get started
-                    let user = User(
-                        username: "ゲストユーザー",
-                        email: "",
-                    )
-                    
-                    let realm = try! Realm()
-                    try! realm.write {
-                        realm.add(user)
-                    }
-                    // ContentView へ移動する処理をここに追加
-                    navigateToMain = true
-                }) {
-                    Text("SakeLogを始める")
-                        .font(.headline)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(isAtLastPage ? Color.blue : Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                .disabled(!isAtLastPage) // 最後のページまで進まないと押せない
-                .padding(.horizontal)
+        ScrollView {
+            Text("Welcome to SakeLog")
+                .font(.largeTitle)
+                .padding(.top, 40)
+            Text("Your personal sake tasting journal.")
+                .font(.subheadline)
+                .padding(.top, 2)
+            CarouselView(currentIndex: $currentIndex)
+            
+            Spacer()
+            
+            Button(action: {
+                // guest user を作成
+                userManager.createGuestUser()
+                // NOTE: currentUser が更新されると自動でHomeView に遷移される
+            }) {
+                Text("SakeLogを始める")
+                    .font(.headline)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(isAtLastPage ? Color.blue : Color.gray)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
             }
-            .padding()
-            .animation(.easeInOut, value: currentIndex)
-            .navigationDestination(isPresented: $navigateToMain) {
-                ContentView()
-                    .navigationBarBackButtonHidden(true)
-            }
+            .disabled(!isAtLastPage) // 最後のページまで進まないと押せない
+            .padding(.horizontal)
         }
+        .padding()
+        .animation(.easeInOut, value: currentIndex)
     }
     
     /// 最後のページにいるかどうか

@@ -29,39 +29,35 @@ struct CabinetView: View {
 
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(SakeLogs, id: \.self) { SakeLog in
-                        // 詳細画面へ遷移
-                        NavigationLink(destination: SakeLogDetailView(sakeLog: SakeLog)) {
-                            ModelRenderView(labelImageName: SakeLog.labelUrl, allowsCameraControl: false)
-                                .frame(height: 200)
-                                .background(Color.gray.opacity(0.1))
-                                .cornerRadius(8)
-                                .shadow(radius: 2)
-                        }
-                    }
-                }
-                .padding()
-            }
-            .navigationTitle("Cabinet")
-            .navigationBarTitleDisplayMode(.inline) // タイトルを小さく中央寄せ
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    // 🔹 BrandListView への NavigationLink
-                    NavigationLink(destination: BrandListView(selectedBrand: $brand)) {
-                        Image(systemName: "plus")
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 10) {
+                ForEach(SakeLogs, id: \.self) { SakeLog in
+                    // 詳細画面へ遷移
+                    NavigationLink(destination: SakeLogDetailView(sakeLog: SakeLog)) {
+                        ModelRenderView(labelImageName: SakeLog.labelUrl, allowsCameraControl: false)
+                            .frame(height: 200)
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(8)
+                            .shadow(radius: 2)
                     }
                 }
             }
-            // 🔹 brand が選択されたら AddBrandView に遷移
-            .navigationDestination(isPresented: Binding(
-                get: { brand != nil },
-                set: { if !$0 { brand = nil } }
-            )) {
-                AddBrandSheetView(selectedBrand: $brand, selectedType: $selectedType)
+            .padding()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                // 🔹 BrandListView への NavigationLink
+                NavigationLink(destination: BrandListView(selectedBrand: $brand)) {
+                    Image(systemName: "plus")
+                }
             }
+        }
+        // 🔹 brand が選択されたら AddBrandView に遷移
+        .navigationDestination(isPresented: Binding(
+            get: { brand != nil },
+            set: { if !$0 { brand = nil } }
+        )) {
+            AddBrandSheetView(selectedBrand: $brand, selectedType: $selectedType)
         }
     }
 }

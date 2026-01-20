@@ -11,10 +11,14 @@ struct ContentView: View {
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
-            CabinetView()
-                .tabItem {
-                    Label("Cabinet", systemImage: "cabinet.fill")
-                }
+            NavigationStack {
+                CabinetView()
+                    .navigationTitle("Cabinet")
+                    .navigationBarTitleDisplayMode(.inline) // タイトルを小さく中央寄せ
+            }
+            .tabItem {
+                Label("Cabinet", systemImage: "cabinet.fill")
+            }
             SettingView()
                 .tabItem {
                     Label("Setting", systemImage: "gearshape")
