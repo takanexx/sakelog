@@ -90,6 +90,17 @@
         }
       }
     },
+    "Sake Shelf" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酒棚"
+          }
+        }
+      }
+    },
     "SakeLogに搭載されている日本酒の銘柄データは、オープンデータとして公開されている「さけのわデータ」を基に作成されています。このデータベースには、多数の日本酒の情報が含まれており、SakeLogではその一部を利用しています。" : {
       "localizations" : {
         "en" : {
@@ -122,6 +133,17 @@
     },
     "Setting" : {
 
+    },
+    "Shelf" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "酒棚"
+          }
+        }
+      }
     },
     "Welcome to SakeLog" : {
       "localizations" : {

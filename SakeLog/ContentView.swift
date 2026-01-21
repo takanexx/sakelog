@@ -13,11 +13,11 @@ struct ContentView: View {
                 }
             NavigationStack {
                 CabinetView()
-                    .navigationTitle("Cabinet")
+                    .navigationTitle("Sake Shelf")
                     .navigationBarTitleDisplayMode(.inline) // タイトルを小さく中央寄せ
             }
             .tabItem {
-                Label("Cabinet", systemImage: "cabinet.fill")
+                Label("Shelf", systemImage: "cabinet.fill")
             }
             SettingView()
                 .tabItem {

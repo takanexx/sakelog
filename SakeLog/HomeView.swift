@@ -84,12 +84,14 @@ struct HomeView: View {
                                         .foregroundColor(.secondary)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
-
-                                Button(action: {
-                                    tip = sakeTips.randomElement()!
-                                }) {
-                                    Text("別の豆知識を見る")
-                                        .font(.footnote)
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        tip = sakeTips.randomElement()!
+                                    }) {
+                                        Text("別の豆知識を見る")
+                                            .font(.footnote)
+                                    }
                                 }
                                 .padding(.top, 6)
                             }
