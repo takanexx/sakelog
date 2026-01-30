@@ -20,7 +20,7 @@ struct CropImageView: View {
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color.black.opacity(0.5).ignoresSafeArea()
             VStack {
                 Spacer()
                 ZStack {
@@ -37,7 +37,7 @@ struct CropImageView: View {
                         .gesture(dragGesture)
                         .gesture(magnificationGesture)
 
-
+                    // クロップ枠の枠線
                     Rectangle()
                         .stroke(Color.white, lineWidth: 2)
                         .frame(width: cropSizeW, height: cropSizeH)
