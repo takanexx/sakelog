@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (Required, ); }; };
-		3B9184932EF673DC0040A358 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B9184922EF673DC0040A358 /* Assets.xcassets */; };
+		3B9913A52F35BA4D00E4D6C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B9913A42F35BA4D00E4D6C3 /* Assets.xcassets */; };
 		3BB063142EECE44900447AAA /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB063132EECE44900447AAA /* GoogleMobileAds */; };
 		3BCC3CE12EAC5F1700BA64C7 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		3BE2E5D32F1CCD0400903364 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 3BE2E5D22F1CCD0400903364 /* Localizable.xcstrings */; };
@@ -29,7 +29,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3B9184922EF673DC0040A358 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3B9913A42F35BA4D00E4D6C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BA9C2C62E929D070069E1B4 /* SakeLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SakeLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BE2E5D22F1CCD0400903364 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,9 +72,9 @@
 			isa = PBXGroup;
 			children = (
 				3BE2E5D22F1CCD0400903364 /* Localizable.xcstrings */,
-				3B9184922EF673DC0040A358 /* Assets.xcassets */,
 				3BA9C2C82E929D070069E1B4 /* SakeLog */,
 				3BA9C2C72E929D070069E1B4 /* Products */,
+				3B9913A42F35BA4D00E4D6C3 /* Assets.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -158,7 +158,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B9184932EF673DC0040A358 /* Assets.xcassets in Resources */,
+				3B9913A52F35BA4D00E4D6C3 /* Assets.xcassets in Resources */,
 				3BE2E5D32F1CCD0400903364 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
