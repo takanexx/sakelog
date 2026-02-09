@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B5E12C92F3A867B00E638B0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3B5E12C82F3A867B00E638B0 /* FirebaseAnalytics */; };
+		3B5E12CB2F3A867B00E638B0 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3B5E12CA2F3A867B00E638B0 /* FirebaseCrashlytics */; };
 		3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (Required, ); }; };
 		3B9913A52F35BA4D00E4D6C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B9913A42F35BA4D00E4D6C3 /* Assets.xcassets */; };
 		3BB063142EECE44900447AAA /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB063132EECE44900447AAA /* GoogleMobileAds */; };
@@ -61,7 +63,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3BB063142EECE44900447AAA /* GoogleMobileAds in Frameworks */,
+				3B5E12CB2F3A867B00E638B0 /* FirebaseCrashlytics in Frameworks */,
 				3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */,
+				3B5E12C92F3A867B00E638B0 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +113,8 @@
 			packageProductDependencies = (
 				3B8839862EABA8B500C2A671 /* RealmSwift */,
 				3BB063132EECE44900447AAA /* GoogleMobileAds */,
+				3B5E12C82F3A867B00E638B0 /* FirebaseAnalytics */,
+				3B5E12CA2F3A867B00E638B0 /* FirebaseCrashlytics */,
 			);
 			productName = SakeLog;
 			productReference = 3BA9C2C62E929D070069E1B4 /* SakeLog.app */;
@@ -142,6 +148,7 @@
 			packageReferences = (
 				3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				3BB063122EECE44900447AAA /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				3B5E12C72F3A867B00E638B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3BA9C2C72E929D070069E1B4 /* Products */;
@@ -395,6 +402,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3B5E12C72F3A867B00E638B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.9.0;
+			};
+		};
 		3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -414,6 +429,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3B5E12C82F3A867B00E638B0 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B5E12C72F3A867B00E638B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		3B5E12CA2F3A867B00E638B0 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3B5E12C72F3A867B00E638B0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
 		3B8839862EABA8B500C2A671 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3B8839832EABA8B500C2A671 /* XCRemoteSwiftPackageReference "realm-swift" */;
