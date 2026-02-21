@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3B5E12C92F3A867B00E638B0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3B5E12C82F3A867B00E638B0 /* FirebaseAnalytics */; };
 		3B5E12CB2F3A867B00E638B0 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 3B5E12CA2F3A867B00E638B0 /* FirebaseCrashlytics */; };
+		3B5E14892F46EED100E638B0 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B5E14882F46EED100E638B0 /* Launch Screen.storyboard */; };
+		3B771FF62F497987005CF21D /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 3B771FF52F497987005CF21D /* InfoPlist.xcstrings */; };
 		3B8839872EABA8B500C2A671 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B8839862EABA8B500C2A671 /* RealmSwift */; settings = {ATTRIBUTES = (Required, ); }; };
 		3B9913A52F35BA4D00E4D6C3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B9913A42F35BA4D00E4D6C3 /* Assets.xcassets */; };
 		3BB063142EECE44900447AAA /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 3BB063132EECE44900447AAA /* GoogleMobileAds */; };
@@ -31,6 +33,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3B5E14882F46EED100E638B0 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		3B771FF52F497987005CF21D /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		3B9913A42F35BA4D00E4D6C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BA9C2C62E929D070069E1B4 /* SakeLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SakeLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BE2E5D22F1CCD0400903364 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -75,6 +79,8 @@
 		3BA9C2BD2E929D070069E1B4 = {
 			isa = PBXGroup;
 			children = (
+				3B771FF52F497987005CF21D /* InfoPlist.xcstrings */,
+				3B5E14882F46EED100E638B0 /* Launch Screen.storyboard */,
 				3BE2E5D22F1CCD0400903364 /* Localizable.xcstrings */,
 				3BA9C2C82E929D070069E1B4 /* SakeLog */,
 				3BA9C2C72E929D070069E1B4 /* Products */,
@@ -167,6 +173,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B9913A52F35BA4D00E4D6C3 /* Assets.xcassets in Resources */,
+				3B5E14892F46EED100E638B0 /* Launch Screen.storyboard in Resources */,
+				3B771FF62F497987005CF21D /* InfoPlist.xcstrings in Resources */,
 				3BE2E5D32F1CCD0400903364 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,12 +368,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = gakux.SakeLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -396,12 +408,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = gakux.SakeLog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

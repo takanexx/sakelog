@@ -49,18 +49,6 @@ struct SakeLogDetailView: View {
                     }
                     .font(.title3)
 
-                    // 酒の種類
-                        .font(.headline)
-
-                    // 評価
-                    if let rating = sakeLog.rating {
-                        HStack {
-                            Text("⭐️")
-                            Text("評価: \(rating)/5")
-                        }
-                        .font(.subheadline)
-                    }
-
                     // メモ
                     Text("メモ:")
                         .font(.headline)

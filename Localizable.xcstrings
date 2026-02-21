@@ -17,9 +17,6 @@
     "%lld" : {
 
     },
-    "⭐️" : {
-
-    },
     "🍶" : {
 
     },
@@ -436,6 +433,7 @@
       }
     },
     "評価: %lld/5" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
