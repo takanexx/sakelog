@@ -20,31 +20,44 @@ struct CropImageView: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.5).ignoresSafeArea()
+            Color.black.ignoresSafeArea()
+
+            // 背景層：前面層と同じフレーム基準で scaledToFill し、clipped なしでフルスクリーンに溢れさせる
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .scaleEffect(scale * gestureScale)
+                .offset(
+                    x: offset.width + gestureOffset.width,
+                    y: offset.height + gestureOffset.height
+                )
+                .frame(width: cropSizeW, height: cropSizeH)
+                .opacity(0.4)
+                .allowsHitTesting(false)
+
+            // 前面層：クロップ枠サイズで固定 → cropped() の計算基準を維持
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .scaleEffect(scale * gestureScale)
+                .offset(
+                    x: offset.width + gestureOffset.width,
+                    y: offset.height + gestureOffset.height
+                )
+                .frame(width: cropSizeW, height: cropSizeH)
+                .clipped()
+                .gesture(dragGesture)
+                .gesture(magnificationGesture)
+
+            // クロップ枠の枠線
+            Rectangle()
+                .stroke(Color.white, lineWidth: 2)
+                .frame(width: cropSizeW, height: cropSizeH)
+                .allowsHitTesting(false)
+
+            // ボタン
             VStack {
                 Spacer()
-                ZStack {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                        .scaleEffect(scale * gestureScale)
-                        .offset(
-                            x: offset.width + gestureOffset.width,
-                            y: offset.height + gestureOffset.height
-                        )
-                        .frame(width: cropSizeW, height: cropSizeH)
-                        .clipped()
-                        .gesture(dragGesture)
-                        .gesture(magnificationGesture)
-
-                    // クロップ枠の枠線
-                    Rectangle()
-                        .stroke(Color.white, lineWidth: 2)
-                        .frame(width: cropSizeW, height: cropSizeH)
-                }
-
-                Spacer()
-
                 HStack {
                     Button("キャンセル") {
                         onCancel()
