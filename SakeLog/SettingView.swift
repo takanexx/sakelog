@@ -44,7 +44,7 @@ struct SettingView: View {
                     HStack {
                         Text("バージョン")
                         Spacer()
-                        Text("1.0.0")
+                        Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "-")
                             .bold()
                     }
                     NavigationLink(destination: AboutSakeDataView()) {
