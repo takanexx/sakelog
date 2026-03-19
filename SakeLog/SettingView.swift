@@ -44,7 +44,7 @@ struct SettingView: View {
                     HStack {
                         Text("バージョン")
                         Spacer()
-                        Text("1.0.0")
+                        Text("1.1.0")
                             .bold()
                     }
                     NavigationLink(destination: AboutSakeDataView()) {
